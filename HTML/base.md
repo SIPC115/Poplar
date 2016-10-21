@@ -193,7 +193,7 @@ HTML `<div>` 元素是块级元素，它可用于组合其他 HTML 元素的容�
 ### `<span>`元素  
 HTML `<span>` 元素是内联元素，可用作文本的容器。`<span>` 元素也没有特定的含义。当与 CSS 一同使用时，<span> 元素可用于为部分文本设置样式属性。 
 
-# 附录：
+# 附录  
 参考资料如下：  
 
 * [w3c菜鸟教程](http://www.runoob.com/html/html-tutorial.html)
