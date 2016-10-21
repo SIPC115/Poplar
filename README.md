@@ -21,7 +21,7 @@ Poplar web前端知识库
 - javascript
     - 基本语法
     - 闭包/原型链/this
-    - 类与继承
+    - [类与继承](https://github.com/SIPC115/Poplar/blob/master/JS/class.md)
     - DOM操作
     - 事件处理
     - 优化手段与编程技巧

@@ -107,7 +107,7 @@ mark标签：高亮那些无需重点强调其意义的词语（背景色会变�
 
 # 兼容性  
 目前绝大部分浏览器都是支持HTML5新标签的，如下：  
-![](/image/html5caniuse.png)
+![](/image/html5caniuse.png)  
 当然有可能你使用的是不支持html5的浏览器(太low了，换了吧)，那么你可以用下面这个css来模拟这些标签。  
 
 ```css  
