@@ -36,6 +36,17 @@ HTML 标记标签通常被称为 HTML 标签 (HTML tag)。
 * Almost Standard Mode 准标准模式
 * Standard 标准模式  
 
+如何判定现在是标准模式还是怪异模式：   
+方法一：执行以下代码
+```javascript
+alert(window.top.document.compatMode); //BackCompat  表示怪异模式；CSS1Compat  表示标准模式  
+```
+方法二：jquery为我们提供的方法，如下：  
+```javascript  
+alert($.boxModel);
+alert($.support.boxModel);  
+```  
+
 产生多重模式的原因是因为浏览器之初，浏览器厂商并未统一html和css的解析规范导致。低版本IE中残留该问题，为了避免，请坚持写上doctype。  
 关于模式的区别详情请见：[Quirks Mode and Standards Mode](https://developer.mozilla.org/zh-CN/docs/%E6%80%AA%E5%BC%82%E6%A8%A1%E5%BC%8F%E5%92%8C%E6%A0%87%E5%87%86%E6%A8%A1%E5%BC%8F)  
 
@@ -185,9 +196,9 @@ HTML `<span>` 元素是内联元素，可用作文本的容器。`<span>` 元素
 # 附录：
 参考资料如下：  
 
-* w3c菜鸟教程
-* jQuery框架设计
-* MDN  
+* [w3c菜鸟教程](http://www.runoob.com/html/html-tutorial.html)
+* [jQuery框架设计](https://item.jd.com/11436424.html)
+* [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript)  
 
 
 
