@@ -6,7 +6,7 @@ Poplar web前端知识库
 - HTML
     - [HTML 基本内容](https://github.com/SIPC115/Poplar/blob/master/HTML/base.md)    
     - [HTML5 新特性](https://github.com/SIPC115/Poplar/blob/master/HTML/html5.md)  
-    - HTML 头部信息
+    - [HTML 头部信息](https://github.com/SIPC115/Poplar/blob/master/HTML/head.md)
 - CSS  
     - 选择器规则,继承与覆盖
     - 基本 css 属性
