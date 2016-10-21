@@ -22,7 +22,7 @@ html5 之前网页中会这样写：`<meta http-equiv="Content-Type"content="tex
 `<meta http-equiv="X-UA-Compatible"content="IE=Edge,chrome=1">`这样写可以达到的效果是如果安装了 Google Chrome Frame，则使用 GCF 来渲染页面，如果没有安装 GCF，则使用最高版本的 IE 内核进行渲染。  
 
 ## DNS预解析  
-为了降低DNS查询时间，引入DNS预解析策略如下：
+为了降低DNS查询时间，引入DNS预解析策略如下：  
 1. 用meta信息来告知浏览器, 当前页面要做DNS预解析:`<meta http-equiv="x-dns-prefetch-control" content="on" />`  
 2. 在页面header中使用link标签来强制对DNS预解析: `<link rel="dns-prefetch" href="http://bdimg.share.baidu.com" />`  
 
