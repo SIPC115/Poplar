@@ -8,9 +8,9 @@ Poplar web前端知识库
     - [HTML5 新特性](https://github.com/SIPC115/Poplar/blob/master/HTML/html5.md)  
     - [HTML 头部信息](https://github.com/SIPC115/Poplar/blob/master/HTML/head.md)
 - CSS  
-    - 选择器规则,继承与覆盖
-    - 基本 css 属性
+    - CSS选择器，结构与层叠
     - 水平格式化与垂直格式化布局
+    - BFC
     - CSS3 带来的内容
     - Flex 布局规则
     - CSS3 动画指南
@@ -27,6 +27,7 @@ Poplar web前端知识库
     - 优化手段与编程技巧
     - ajax及跨域
     - ES6 新特性 
+- javascript设计模式
 - js框架设计(jQuery源码解读)
 - 移动web前端
     - 移动web基础(布局等内容)
@@ -47,6 +48,7 @@ Poplar web前端知识库
     - Vue简介
 - 性能优化
     - 基本性能要求
+    - 高性能HTML与CSS
     - 网络请求
     - 图片的选择
     - 页面可见时间(首屏优化方案)
