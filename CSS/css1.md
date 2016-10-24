@@ -67,7 +67,7 @@ css3中又新增了如下的用户行为伪类：`:enabled`,`:disabled`,`:checke
 **:nth-child**是所有子元素过滤伪类的基础。它带有参数，可以是纯数字，代数式，或者单词。如果是纯数字，数字从1计数；如果是代数式，n则从零递增。用图来展示     
 1.`nth-child(8)`选择第8个li元素：    
 ![](/image/cssnth1.png)  
-2.`nth-child(n+6)`选择大于或等于4的元素  
+2.`nth-child(n+6)`选择大于或等于6的元素  
 ![](/image/cssnth2.png)   
 3.`:nth-child(-n+9)`选取小于或者等于9的元素     
 ![](/image/cssnth3.png)   

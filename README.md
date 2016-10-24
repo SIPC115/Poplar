@@ -4,9 +4,9 @@ Poplar web前端知识库
 
 ## 目录结构(临时)  
 - HTML
-    - [HTML 基本内容](https://github.com/SIPC115/Poplar/blob/master/HTML/base.md)    
-    - [HTML5 新特性](https://github.com/SIPC115/Poplar/blob/master/HTML/html5.md)  
-    - [HTML 头部信息](https://github.com/SIPC115/Poplar/blob/master/HTML/head.md)
+    - [HTML 基本内容](https://github.com/SIPC115/Poplar/blob/master/HTML/html1.md)    
+    - [HTML5 新特性](https://github.com/SIPC115/Poplar/blob/master/HTML/html2.md)  
+    - [HTML 头部信息](https://github.com/SIPC115/Poplar/blob/master/HTML/html3.md)
 - CSS  
     - [CSS选择器，结构与层叠](https://github.com/SIPC115/Poplar/blob/master/CSS/css1.md)
     - [基础视觉格式化](https://github.com/SIPC115/Poplar/blob/master/CSS/css2.md)
