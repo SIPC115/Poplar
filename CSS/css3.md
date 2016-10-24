@@ -144,7 +144,12 @@ BFC其他的特性主要作用就是和自适应布局有关。我们先看一�
 aside和main之间有20px的间距呢。给main加上`margin-left: 20px;`会发现，布局并没有发生任何变化。  
 这一问题产生的主要原因依然是规则：`每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此`
 导致。现在main依然要和包含块body的最左边计算位置，而不是和aside计算相对位置，因此只有设置`aside宽度 + 20px`的值给main一个margin-left才可以达到效果。   
-那么有没有更简单的方法呢，其实我们只需要给`aside`元素一个`margin-right: 20px;`就好了或者`padding-right`。  
+那么有没有更简单的方法呢，其实我们只需要给`aside`元素一个`margin-right: 20px;`就好了或者`padding-right`。    
+
+## BFC总结
+其实以上的几个例子都体现了BFC布局规则第五条：`BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。`   
+因为BFC内部的元素和外部的元素绝对不会互相影响，因此， 当BFC外部存在浮动时，它不应该影响BFC内部Box的布局，BFC会通过变窄，而不与浮动有重叠。
+同样的，当BFC内部有浮动时，为了不影响外部元素的布局，BFC计算高度时会包括浮动的高度。避免margin重叠也是这样的一个道理。 
 
 ## BFC自适应布局优势 　　
 
@@ -153,7 +158,7 @@ aside和main之间有20px的间距呢。给main加上`margin-left: 20px;`会发�
 
 关于BFC与自适应布局采用css的优劣性，可以参考这篇文章： [CSS深入理解流体特性和BFC特性下多栏自适应布局](http://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/)   
 其他关于多栏自适应布局，推荐看一下：   
- 
+
 * [圣杯布局的来历](http://alistapart.com/article/holygrail)   
 * [双飞翼布局介绍-始于淘宝UED](http://www.imooc.com/wenda/detail/254035)  
 * [双飞翼与圣杯的比较](http://www.cnblogs.com/imwtr/p/4441741.html)  
@@ -162,7 +167,8 @@ aside和main之间有20px的间距呢。给main加上`margin-left: 20px;`会发�
 # 附录  
 参考资料如下：  
 
-* [W3C Visual formatting model](https://www.w3.org/TR/CSS2/visuren.html#block-formatting)：)  
+* [W3C Box model](https://www.w3.org/TR/CSS2/box.html)  
+* [W3C Visual formatting model](https://www.w3.org/TR/CSS2/visuren.html#block-formatting)
 * [什么是BFC 大搜车博客](http://web.jobbole.com/84808/)  
 
 
