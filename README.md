@@ -10,8 +10,7 @@ Poplar web前端知识库
 - CSS  
     - [CSS选择器，结构与层叠](https://github.com/SIPC115/Poplar/blob/master/CSS/css1.md)
     - [基础视觉格式化](https://github.com/SIPC115/Poplar/blob/master/CSS/css2.md)
-    - BFC块级格式化上下文
-    - CSS3 带来的内容
+    - [BFC 块级格式化上下文](https://github.com/SIPC115/Poplar/blob/master/CSS/css3.md)
     - Flex 布局规则  
     - CSS3 动画指南
         - 3D动画
