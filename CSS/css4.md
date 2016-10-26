@@ -364,7 +364,10 @@ flex简化了我们传统的布局方案，下面介绍几个用flex做的布局
 * [浅谈flexbox弹性盒子布局](http://www.alloyteam.com/2015/05/xi-shuo-flexbox-dan-xing-he-zi-bu-ju/)  
 * [我就是要用css实现](http://www.alloyteam.com/2016/01/let-see-css-world/)  
 * [css3 flex流动自适应响应式布局实例](http://qianduanblog.com/post/css-learning-18-css3-flex-responsive-design-example.html)   
-* [阮一峰 Flex布局](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)  
+* [阮一峰 Flex布局](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)   
+    
+兼容性问题请移步： 
+* [Flex布局新旧混合写法详解（兼容微信）](https://segmentfault.com/a/1190000003978624) 
 
 # 附录  
 参考资料如下：  
