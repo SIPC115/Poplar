@@ -11,14 +11,15 @@ Poplar web前端知识库
     - [CSS选择器，结构与层叠](https://github.com/SIPC115/Poplar/blob/master/CSS/css1.md)
     - [基础视觉格式化](https://github.com/SIPC115/Poplar/blob/master/CSS/css2.md)
     - [BFC 块级格式化上下文](https://github.com/SIPC115/Poplar/blob/master/CSS/css3.md)  
-    - CSS 层叠上下文
+    - [CSS 层叠顺序与层叠上下文](https://github.com/SIPC115/Poplar/blob/master/CSS/css6.md)
     - [Flex 布局及示例](https://github.com/SIPC115/Poplar/blob/master/CSS/css4.md)  
     - [CSS3 动画指南](https://github.com/SIPC115/Poplar/blob/master/CSS/css5.md)
         - 3D动画
         - 补间动画
         - 帧动画
         - 利用js来操控CSS动画
-    - 响应式设计
+    - 响应式设计  
+    - [CSS3 奇特的属性]  
 - javascript
     - 基本语法
     - 闭包/原型链/this

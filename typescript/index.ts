@@ -66,3 +66,38 @@ interface numberDictionary {
     readonly [index: number]: string;
 }
 let dic1: numberDictionary = ["123", "abc"];
+
+
+/**
+ * 类
+ */
+class Person {
+    public name: string;
+    public sex: Sex;
+    private _address: string;
+    constructor(name: string, sex:Sex, address: string) {
+        this.name = name;
+        this.sex = sex;
+        this._address = address;
+    };
+    get address(): string {
+        return `这个是修改过后的地址${this._address}`;
+    }
+    printInfo(): boolean {
+        console.log("哈哈哈");
+        return true;
+    }
+};
+
+class Teacher extends Person {
+    static info = {
+        "idNum": "20139901"
+    }
+    constructor(name: string, sex:Sex, address: string){
+        super(name, sex, address);
+    }
+}
+
+let hy = new Person("hyang", Sex.Woman, "江苏省徐州市");
+let hyy = new Teacher("hyy", Sex.Woman, "南京");
+console.log(hy.printInfo());
