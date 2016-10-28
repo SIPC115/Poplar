@@ -39,7 +39,7 @@ section元素代表文档中的“节”或“段”，“段”可以是指一�
 * article、nav、aside可以理解为特殊的section，所以如果可以用article、nav、aside就不要用section，没实际意义的就用div
 
 ## article元素
-article元素最容易跟section和div容易混淆，其实article代表一个在文档，页面或者网站中自成一体的内容，其目的是为了让开发者独立开发或重用。除了它的内容，article会有一个标题（通常会在header里），会有一个footer页脚。我们举几个例子介绍一下article，好更好区分article、section、div
+article元素最容易跟section和div混淆，其实article代表一个在文档，页面或者网站中自成一体的内容，其目的是为了让开发者独立开发或重用。除了它的内容，article会有一个标题（通常会在header里），会有一个footer页脚。我们举几个例子介绍一下article，以便更好的区分article、section、div
 ```html 
 <article>
     <h1>一篇文章</h1>
@@ -108,7 +108,7 @@ mark标签：高亮那些无需重点强调其意义的词语（背景色会变�
 # 兼容性  
 目前绝大部分浏览器都是支持HTML5新标签的，如下：  
 ![](/image/html5caniuse.png)  
-当然有可能你使用的是不支持html5的浏览器(太low了，换了吧)，那么你可以用下面这个css来模拟这些标签。  
+当然有可能你使用的是不支持html5的浏览器(乖，换了吧)，那么你可以用下面这个css来模拟这些标签。  
 
 ```css  
 article,
