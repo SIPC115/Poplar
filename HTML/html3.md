@@ -1,9 +1,7 @@
 HTML 头部信息  
 ===  
 # 简介  
-HTML `<head>`标签中，有许多元数据标签，涉及到浏览器对网页的渲染，SEO 等等，
-而各个浏览器内核以及各个国内浏览器厂商都有些自己的标签元素,这就造成了很多差异性。移动互联网时代，head 头部结构，移动端的 meta 元素，
-显得更为重要。这里主要对一些功能性的标签/属性等进行讲解。    
+HTML `<head>`标签中，有许多元数据标签，涉及到浏览器对网页的渲染，SEO 等等，而各个浏览器内核以及各个国内浏览器厂商都有些自己的标签元素，这就造成了很多差异性。在移动互联网时代，head 头部结构，移动端的 meta 元素，显得更为重要。这里主要对一些功能性的标签/属性等进行讲解。    
 
 ## charset  
 声明文档使用的字符编码: `<meta charset="utf-8">`  
@@ -19,7 +17,8 @@ html5 之前网页中会这样写：`<meta http-equiv="Content-Type"content="tex
 
 ## 360 使用Google Chrome Frame  
 `<meta name="renderer"content="webkit">`360 浏览器就会在读取到这个标签后，立即切换对应的极速核。 另外为了保险起见再加入
-`<meta http-equiv="X-UA-Compatible"content="IE=Edge,chrome=1">`这样写可以达到的效果是如果安装了 Google Chrome Frame，则使用 GCF 来渲染页面，如果没有安装 GCF，则使用最高版本的 IE 内核进行渲染。  
+`<meta http-equiv="X-UA-Compatible"content="IE=Edge,chrome=1">`
+这样写的效果是如果安装了 Google Chrome Frame，则使用 GCF 来渲染页面，如果没有安装 GCF，则使用最高版本的 IE 内核进行渲染。  
 
 ## DNS预解析  
 为了降低DNS查询时间，引入DNS预解析策略如下：  
@@ -27,7 +26,7 @@ html5 之前网页中会这样写：`<meta http-equiv="Content-Type"content="tex
 2. 在页面header中使用link标签来强制对DNS预解析: `<link rel="dns-prefetch" href="http://bdimg.share.baidu.com" />`  
 
 ## 百度禁止转码  
-通过百度手机打开网页时，百度可能会对你的网页进行转码，脱下你的衣服，往你的身上贴狗皮膏药的广告，为此可在 head 内添加  
+通过百度手机打开网页时，百度可能会对你的网页进行转码，脱下你的衣服，往你的身上贴狗皮膏药的广告，为此可在 head 内添加如下代码来禁止转码:  
 `<meta http-equiv="Cache-Control"content="no-siteapp"/>` 
 
 ## SEO 优化部分  
@@ -41,6 +40,7 @@ html5 之前网页中会这样写：`<meta http-equiv="Content-Type"content="tex
 ## viewport  
 viewport 可以让布局在移动浏览器上显示的更好。 通常会写  
 `<meta name="viewport" content="width=device-width, initial-scale=1.0">` 
+
 content 参数：
 * width viewport 宽度(数值/device-width)
 * height viewport 高度(数值/device-height)
