@@ -94,7 +94,7 @@ transform-style属性也是3D效果中经常使用的，其两个参数，flat|p
 backface-visibility 属性定义当元素不面向屏幕时是否可见。如果在旋转元素不希望看到其背面时，该属性很有用。   
 取值如下：`backface-visibility: visible|hidden;`  
 
-# 实战：翻书特效  
+# 实战：立方体特效  
 现在我们来实现下面这个立方体：  
 ![](/image/css7-9.png)    
 基本html代码如下：  
@@ -188,7 +188,7 @@ css代码如下：
 ![](/image/css7-11.png)    
 
 # 3D与硬件加速  
-坊间流传这这样一个传说：一旦使用3D属性，就能触发设备的硬件加速，从而使得浏览器的表现更佳。但这句话也得看情境——  
+坊间流传这这样一个传说：一旦使用3D属性，就能触发设备的硬件加速，从而使得浏览器的表现更佳。但这句话也得看情： 
 > 想象使用GPU加速的动画就像是Vin Diesel（速度与激情的主角）开着Dominic标志性的汽车 —— Dodge Charger。它的定制900 hp引擎可以让它在一瞬间从0加速到60码。但是如果你开着它在拥挤的高速公路上又有什么用呢？这种情况下你选择的车辆Charger是正确的。
 但是问题是你还在一个拥堵的高速公路上。——[《CSS硬件加速的好与坏》](http://efe.baidu.com/blog/hardware-accelerated-css-the-nice-vs-the-naughty/)  
 
