@@ -14,7 +14,7 @@ Poplar web前端知识库
     - [CSS 层叠顺序与层叠上下文](https://github.com/SIPC115/Poplar/blob/master/CSS/css6.md)
     - [Flex 布局及示例](https://github.com/SIPC115/Poplar/blob/master/CSS/css4.md)  
     - [CSS3 动画指南](https://github.com/SIPC115/Poplar/blob/master/CSS/css5.md)
-        - 3D动画
+        - [3D动画](https://github.com/SIPC115/Poplar/blob/master/CSS/css7.md)
         - 补间动画
         - 帧动画
         - 利用js来操控CSS动画
