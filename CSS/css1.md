@@ -74,7 +74,7 @@ css3中又新增了如下的用户行为伪类：`:enabled`,`:disabled`,`:checke
 4.`nth-child(n+4):nth-child(-n+8)`选择大于等于4并且小于等于8的元素  
 ![](/image/cssnth4.png)  
 5.`nth-child(2n)`为选择偶数位的元素，`nth-child(2n-1)`为选择奇数位上的元素，`nth-child(3n+1)`位3个为一组，取第一个元素。  
-6.`nth-of-type`和`nth-child`类似,规则是将当前元素的父节点的所有元素按照其tagNamef分组，只要其参数符合它在哪一组的位子就被匹配到。如下规则：  
+6.`nth-of-type`和`nth-child`类似,规则是将当前元素的父节点的所有元素按照其tagName分组，只要其参数符合它在哪一组的位子就被匹配到。如下规则：  
 `span:nth-of-type(n+3) div:nth-of-type(2n+2)`   
 ```css  
 /* 这部分是蓝色圆*/
