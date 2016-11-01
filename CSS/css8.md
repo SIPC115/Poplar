@@ -94,7 +94,7 @@ Keyframes定义好了以后, 我们就可以通过`animation`属性来调用它�
 ## 帧动画制作过程
 ### 1. 制作动画帧为雪碧图  
 这里在网上找了一个动画效果如图：  
-![](/image/cssEx-1.png)  
+![](/image/cssEx-1.gif)  
 这个动画是用gif实现的，我们用PS打开，发现这个gif其实是由许多静态图片组成(帧)  
 ![](/image/cssEx-2.png)  
 这些静态的图片循环播放，形成了一个动态的动画效果。这就是帧动画。
@@ -124,75 +124,61 @@ steps函数，它可以传入两个参数，第一个是一个大于0的整数�
 可以看出：steps(1, start) 等于step-start，steps(1,end)等于step-end
 最核心的一点就是：timing-function 作用于每两个关键帧之间，而不是整个动画。  
 
-于是我们
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-参考了一下[腾讯ISUX](http://isux.tencent.com/)的内容，稍微总结一下。  
-
-# 动画制作技巧  
-### 规划关键帧(动画过程)  
-我们在制作补间动画的时候，关键帧是我们要书写的内容，这部分决定了动画的效果。为此有必要根据沟通和分析合理的规划出
-动画的属性分解表和时间轴，例如下面这个属性分解的例子：  
-![](/image/css8-3,png)  　　
-
-### transform 动画不同步问题  
-在制作一个复杂的动画的时候，你有可能对元素有多个transform的同时变化，然而transform 并不像你想的那样同步发生，
-而是按照一定顺序。最右边的操作最先执行，然后往左依次执行。例如下面的代码中scale首先执行，然后是translate，最后是rotate：    
+于是我们定义如下动画：  
 
 ```css  
-@keyframes foo {
- to {/*         3rd           2nd              1st      */
-   transform: rotate(90deg) translateX(30px) scale(1.5);}}
-```    
-
-大多数情况下这不是我们想要的，通常我们希望这些操作同时发生。
-此外，如果你把 transform 分割成多个 keyframe，事情会变得更加复杂，有些操作同步，
-有些操作不同步。比如下面这个例子：  
-
-```css  
-@keyframes foo {
-    30%{
-        transform: rotateY(360deg);
-    }
-    65%{
-        transform: translateY(-30px) rotateY(-360deg) scale(1.5);
-    }
-    90%{
-        transform: translateY(10px) scale(0.75);
-    }
+@keyframes charector-1 {
+    0% {background-position: 0 0;}
+    14.3% {background-position: -180px 0;}
+    28.6% {background-position: -360px 0;}
+    42.9% {background-position: -540px 0;}
+    57.2% {background-position: -720px 0;}
+    71.5% {background-position: -900px 0;}
+    85.8% {background-position: -1080px 0;}
+    100% {background-position: 0 0;}
 }  
 ```  
-这段代码的动画效果顺序，我们无法预测。为了解决这一问题，我们只能采取一个暴力的手段，即给要执行过个变换的动画
-套上多个`<div>`标签，每个标签应用一种需要的变化，这样就不会发生干扰。查看下面的例子，就是通过加`<div>`手段解决的：  
-[transform动画不同步研究](http://59.67.152.41:10080/codepencil/index.php/Code/index/cid/143)  
-如果希望有一种优雅的方式解决的话，我们会采用 transform的Matrix(矩阵)做变换，这个之后讨论。  
+同时修改`.charector`, 加入下面的css：  
 
-[W3C css transform module level 2](https://drafts.csswg.org/css-transforms-2/)上，已经对这一问题
-进行了修正，我们可以不用再关心动画的执行顺序，他们可以同时执行了。然而目前这一提案依然在修订中，并没有正式的浏览器能够支持。
-你可以下载 google Chrome Canary(金丝雀)版本的浏览器体验一下。 
+```css   
+.charector {
+    animation-name: charector-1;
+	animation-iteration-count: infinite;   /* 动画无限播放 */
+	animation-timing-function: step-start; /* 马上跳到动画每一结束桢的状态 */
+	animation-duration: 950ms;             /* 动画运行的时间 */
+}
+```  
+任务完成，[点击这里查看DEMO](http://59.67.152.41:10080/codepencil/index.php/Code/index/cid/144)  
 
-### 使用负的延迟值  
-如果你需要同时执行多个动画并错开它们的开始时间，可以使用`animation-delay`。
-但是这会导致用户打开网页时有些元素需要静止一段时间才会开始移动。
-此时可以给animation-delay设置一个负数，这样会将播放头向前移动，
-因此用户打开网页的时候所有动画都会播放。使用这种方式可以通过共享一套 keyframes 来实现不同的动画。  
+### 逐帧动画技巧  
+#### （1）step-start 与 step-end  
+除了 steps 函数，animation-timing-function 还有两个与逐帧动画相关的属性值 step-start 与 step-end：
+* step-start 等同于 steps(1,start)：动画执行时以开始端点为开始；
+* step-end 等同于 steps(1,end)：动画执行时以结尾端点为开始。  
+#### （2）动画帧的计算    
 
-### animation-play-state 控制每屏动画播放  
+```less   
+$spriteWidth: 140px; // 精灵宽度 
+@keyframes ani {
+  100% {
+    background-position: -($spriteWidth * 12) 0; // 12帧
+  }
+} 
+```  
+#### (3) 简单的适配屏幕  
+利用rem我们可以完成对移动端的适配，但是rem 的计算会存在误差，因此使用雪碧图时我们并不推荐用 rem。如果是逐帧动画的话，由于计算的误差，会出现抖动的情况。
+为此可以采用下面的方案适配：  
+
+* 非逐帧动画部分，使用 rem 做单位；
+* 逐帧动画部分，使用 px 做单位，再结合 js 对动画部分使用 scale 进行缩放。  
+
+移动端部分会对适配详解。  
+
+# 附录  
+参考资料如下：  
+* [京东凹凸实验室](https://aotu.io/)  
+* [W3C CSS Transitions](https://www.w3.org/TR/2012/WD-css3-transitions-20120403/#transition-timing-function-property)  
+* [图解CSS3](https://item.jd.com/11494721.html) 
 
 
 

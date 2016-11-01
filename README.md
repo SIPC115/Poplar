@@ -16,6 +16,7 @@ Poplar web前端知识库
     - [CSS3 动画指南](https://github.com/SIPC115/Poplar/blob/master/CSS/css5.md)
         - [3D动画](https://github.com/SIPC115/Poplar/blob/master/CSS/css7.md)
         - [补间动画&逐帧动画 ](https://github.com/SIPC115/Poplar/blob/master/CSS/css8.md)
+        - [CSS动画技巧](https://github.com/SIPC115/Poplar/blob/master/CSS/css9.md)
         - transform中的Matrix(矩阵)
         - 利用js来操控CSS动画
     - 响应式设计  
