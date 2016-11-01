@@ -15,11 +15,11 @@ html5 之前网页中会这样写：`<meta http-equiv="Content-Type"content="tex
 为什么 lang="zh-cmn-Hans" 而不是我们通常写的 lang="zh-CN" 呢，参考: [页头部的声明应该是用 lang="zh" 还是 lang="zh-cn"](http://www.zhihu.com/question/20797118?utm_source=weibo&utm_medium=weibo_share&utm_content=share_question&utm_campaign=share_sidebar)。
 
 ## 优先使用 IE 最新版本和 Chrome  
-`<meta http-equiv="X-UA-Compatible"content="IE=edge,chrome=1"/>`  
+`<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>`  
 
 ## 360 使用Google Chrome Frame  
-`<meta name="renderer"content="webkit">`360 浏览器就会在读取到这个标签后，立即切换对应的极速核。 另外为了保险起见再加入
-`<meta http-equiv="X-UA-Compatible"content="IE=Edge,chrome=1">`这样写可以达到的效果是如果安装了 Google Chrome Frame，则使用 GCF 来渲染页面，如果没有安装 GCF，则使用最高版本的 IE 内核进行渲染。  
+`<meta name="renderer" content="webkit">`360 浏览器就会在读取到这个标签后，立即切换对应的极速核。 另外为了保险起见再加入
+`<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">`这样写可以达到的效果是如果安装了 Google Chrome Frame，则使用 GCF 来渲染页面，如果没有安装 GCF，则使用最高版本的 IE 内核进行渲染。  
 
 ## DNS预解析  
 为了降低DNS查询时间，引入DNS预解析策略如下：  
@@ -28,7 +28,7 @@ html5 之前网页中会这样写：`<meta http-equiv="Content-Type"content="tex
 
 ## 百度禁止转码  
 通过百度手机打开网页时，百度可能会对你的网页进行转码，脱下你的衣服，往你的身上贴狗皮膏药的广告，为此可在 head 内添加  
-`<meta http-equiv="Cache-Control"content="no-siteapp"/>` 
+`<meta http-equiv="Cache-Control" content="no-siteapp"/>` 
 
 ## SEO 优化部分  
 1. 页面标题`<title>`标签(head 头部必须): `<title>your title</title>`

@@ -100,7 +100,7 @@ backface-visibility 属性定义当元素不面向屏幕时是否可见。如果
 基本html代码如下：  
 
 ```html    
-<divclass="container">
+<div class="container">
     <div id="cube">
         <div class="front">1</div>
         <div class="back">2</div>
@@ -114,7 +114,7 @@ backface-visibility 属性定义当元素不面向屏幕时是否可见。如果
 1.首先为每个cube下的上下左右前后四个正方体面定义样子：   
 
 ```css  
-#cube figure {
+#cube div {
     font-size: 120px;
     line-height: 196px;
     font-weight: bold;

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #cube div {
+            font-size: 120px;
+            line-height: 196px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+        }
+        .front { background: hsla(   0, 100%, 50%, 0.5 ); }
+        .back  { background: hsla(  60, 100%, 50%, 0.5 ); }
+        .right { background: hsla( 120, 100%, 50%, 0.5 ); }
+        .left { background: hsla( 180, 100%, 50%, 0.5 ); }
+        .top { background: hsla( 240, 100%, 50%, 0.5 ); }
+        .bottom { background: hsla( 300, 100%, 50%, 0.5 ); }  
+        .container {
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+        #cube {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+        #cube div {
+            width: 196px;
+            height: 196px;
+            border:2px solid black;
+            position: absolute;
+        } 
+        .container {
+            perspective: 1000px;
+        }
+        #cube {
+            transform-style: preserve-3d;
+        }
+        #cube div {transition:all 1s;}
+        #cube:hover .front{transform:rotateY(0deg) translateZ(100px);}
+        #cube:hover .back{transform:rotateX(180deg) translateZ(100px);}
+        #cube:hover .right{ transform:rotateY(90deg) translateZ(100px);}
+        #cube:hover .left{transform:rotateY(-90deg) translateZ(100px);}
+        #cube:hover .top{transform:rotateX(90deg) translateZ(100px);}
+        #cube:hover .bottom{transform:rotateX(-90deg) translateZ(100px);}
+    </style>
+</head>
+<body>
+    <h1>立方体 - 特效</h1>
+    <h2>请放上鼠标</h2>
+    <div class="container">
+        <div id="cube">
+            <div class="front">1</div>
+            <div class="back">2</div>
+            <div class="right">3</div>
+            <div class="left">4</div>
+            <div class="top">5</div>
+            <div class="bottom">6</div>
+        </div>
+    </div>
+</body>
+</html>

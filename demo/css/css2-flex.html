@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+        }
+        header, footer {
+            text-align:center;
+            padding: 10px;
+            background-color:#00ff00;
+            color: #fff;
+            font-weight:bold;
+        }
+        section {
+            height: 200px;
+            display:flex;
+        }
+        .main {
+            height: 200px;
+            background-color: #3eceee;
+            text-align: center;
+            color: #fff;
+            font-weight:bold;
+            line-height: 11;
+            flex:1;
+            order: 2;
+        }
+        .left {
+            line-height: 11;
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            height:200px;
+            width: 100px;
+            background-color: #DF006C;
+            order: 1;
+        }
+        .right {
+            line-height: 11;
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            height:200px;
+            width: 200px;
+            background-color: #ff0000;
+            order: 3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+       flex 三栏布局
+    </header>
+    <section>
+        <div class="main">
+            main
+        </div>
+        <div class="left">
+            left
+        </div>
+        <div class="right">
+            right
+        </div>
+    </section>
+    <footer>
+        footer
+    </footer>
+</body>
+</html>

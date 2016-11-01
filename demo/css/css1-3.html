@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS DEMO 1-3</title>
+    <style>
+        section {
+            margin-top: 10px; 
+        }
+        .bfc-1 p {
+            color: #f55;
+            background: #fcc;
+            width: 200px;
+            line-height: 100px;
+            text-align:center;
+            margin: 100px;
+        }
+        .bfc-2 .aside {
+            width: 100px;
+            height: 150px;
+            float: left;
+            background: red;
+        }
+        .bfc-2 .main {
+            overflow: hidden;
+            height: 200px;
+            background: pink;
+        }
+    </style>
+</head>
+<body>
+    <h1>水平视觉格式化</h1>
+    <section>
+        <h2>auto 高度</h2>
+        <div style="border: 1px solid #ff0000;">
+            <div style="background-color: #00ff00;">
+            <div style="background-color: #0000ff;padding: 20px;margin-top: 10px;"></div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h2>行内元素格式化</h2>
+        <div>
+            <p style="background-color:silver; font-size:30px;">
+                TEXT1
+                <span style="border:3px solid blue;">text in span</span>
+                great1
+                <em style="border:3px solid red;">thx a lot</em>
+                bee
+                <strong style="border:3px solid green;">give me 5!</strong>
+                Aloha!
+            </p> 
+        </div>
+    </section>
+    <section class="bfc-1">
+        <h2>BFC-防止外边距合并</h2>
+        <div style="overflow: hidden;">
+            <p>SIPC</p>
+        </div>   
+        <p>115</p> 
+    </section>
+    <section>
+        <h2>BFC - 布局</h2>
+        <div class="bfc-2">
+            <div class="aside"></div>
+            <div class="main">
+                SIPC115
+            </div>
+        </div>
+    </section>
+</body>
+</html>
