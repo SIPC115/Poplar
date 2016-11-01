@@ -67,15 +67,64 @@ interface numberDictionary {
 }
 let dic1: numberDictionary = ["123", "abc"];
 
+/**
+ * 函数测试
+ */
+function buildName(firstName: string, ...restOfName: string[]): string {
+    return firstName + " " + restOfName.join(" ");
+}
+let myAdd: (baseValue:number, increment:number) => number =
+    function(x: number, y: number): number { 
+        return x + y; 
+    };
+function addValue(a: string & number, b: string & number) {
+    return a + b;
+}
+type Name = string;
+let lwq: any = {
+    name: <Name>("lwq"),
+    age: 12
+}
+/**
+ * 泛型测试
+ */
+interface Obj {
+    name: string
+}
+function find<T extends Obj>(arg: T): string {
+    return arg.name;  //泛型约束
+}
+find({
+    name: "tgy"
+});
+
+/* 这个有问题 T 没有+操作符，搞毛
+class Add<T> {
+    add(x: T, y: T): T {
+        return x + y;
+    }; 
+}
+var t = new Add<number>();
+t.add(1, 2);
+*/
 
 /**
  * 类
  */
-class Person {
+abstract class Life {
+    constructor(name: string, sex:Sex, address: string){};
+    abstract printInfo(): boolean;
+};
+class Person extends Life {
     public name: string;
     public sex: Sex;
     private _address: string;
-    constructor(name: string, sex:Sex, address: string) {
+    static origin = {
+        x: "0",
+        y: "0"
+    };
+    constructor(name: string, sex:Sex, address?: string) {
+        super(name, sex, address);
         this.name = name;
         this.sex = sex;
         this._address = address;
