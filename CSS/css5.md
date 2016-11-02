@@ -249,6 +249,9 @@ animation-direction是用来指定元素动画播放的方向，其只有两个�
 ## animation-play-state  
 animation-play-state主要是用来控制元素动画的播放状态。其主要有两个值，running和paused其中running为默认值。他们的作用就类似于我们的音乐播放器一样，可以通过paused将正在播放的动画停下了，也可以通过running将暂停的动画重新播放，我们这里的重新播放不一定是从元素动画的开始播放，而是从你暂停的那个位置开始播放。另外如果暂时了动画的播放，元素的样式将回到最原始设置状态。  
 
+最后上一张对`animation`属性的总结图：  
+![](/image/css3animation.jpg)    
+
 # css动画问题  
 css动画虽然很方便简单，但是本身也存在着很多问题：   
 
