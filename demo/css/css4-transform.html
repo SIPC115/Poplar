@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body {
+			background: #444;
+			overflow: hidden;
+		}
+		
+		.translate {
+			animation: translate 5s linear infinite both;
+		}
+		
+		.rotate {
+			animation: rotate 5s linear infinite both;
+		}
+		
+		.scale {
+			animation: scale 5s linear infinite both;
+		}
+		
+		.hexOne {
+			animation: foo 5s linear infinite both;
+		}
+		
+		.contain {
+			width: 40%;
+			height: 100%;
+			float: left;
+			margin-left: 6%;
+		}
+		
+		p {
+			text-align: center;
+			font-family: 'Source Sans Pro', sans-serif;
+			font-weight: 600;
+			font-size: 20px;
+			color: white;
+			margin-top: 8px;
+		}
+		
+		.hexagon {
+			position: relative;
+			width: 150px;
+			height: 86.60px;
+			margin: 120px auto;
+			background-image: url(https://avatars2.githubusercontent.com/u/12710896?v=3&s=200);
+			background-size: auto 173.2051px;
+			background-position: center;
+		}
+		
+		.hexTop,
+		.hexBottom {
+			position: absolute;
+			z-index: 1;
+			width: 106.07px;
+			height: 106.07px;
+			overflow: hidden;
+			-webkit-transform: scaleY(0.5774) rotate(-45deg);
+			-ms-transform: scaleY(0.5774) rotate(-45deg);
+			transform: scaleY(0.5774) rotate(-45deg);
+			background: inherit;
+			left: 21.97px;
+		}
+		/*counter transform the bg image on the caps*/
+		
+		.hexTop:after,
+		.hexBottom:after {
+			content: "";
+			position: absolute;
+			width: 150.0000px;
+			height: 86.60254037844388px;
+			-webkit-transform: rotate(45deg) scaleY(1.7321) translateY(-43.3013px);
+			-ms-transform: rotate(45deg) scaleY(1.7321) translateY(-43.3013px);
+			transform: rotate(45deg) scaleY(1.7321) translateY(-43.3013px);
+			-webkit-transform-origin: 0 0;
+			-ms-transform-origin: 0 0;
+			transform-origin: 0 0;
+			background: inherit;
+		}
+		
+		.hexTop {
+			top: -53.0330px;
+		}
+		
+		.hexTop:after {
+			background-position: center top;
+		}
+		
+		.hexBottom {
+			bottom: -53.0330px;
+		}
+		
+		.hexBottom:after {
+			background-position: center bottom;
+		}
+		
+		.hexagon:after {
+			content: "";
+			position: absolute;
+			top: 0.0000px;
+			left: 0;
+			width: 150.0000px;
+			height: 86.6025px;
+			z-index: 2;
+			background: inherit;
+		}
+		
+		@keyframes translate {
+			65% {
+				transform: translateY(-30px);
+			}
+			90% {
+				transform: translateY(10px);
+			}
+		}
+		
+		@keyframes rotate {
+			30% {
+				transform: rotateY(360deg);
+			}
+			65% {
+				transform: rotateY(-360deg);
+			}
+		}
+		
+		@keyframes scale {
+			65% {
+				transform: scale(1.5);
+			}
+			90% {
+				transform: scale(0.75);
+			}
+		}
+		
+		@keyframes foo {
+			30% {
+				transform: rotateY(360deg);
+			}
+			65% {
+				transform: translateY(-30px) rotateY(-360deg) scale(1.5);
+			}
+			90% {
+				transform: translateY(10px) scale(0.75);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="contain">
+		<p>不同步的动画效果</p>
+		<div class="hexagon hexOne">
+			<div class="hexTop"></div>
+			<div class="hexBottom"></div>
+		</div>
+		<!--hexTwo-->
+	</div>
+	<!--left-->
+
+	<div class="contain">
+		<p>同步的动画效果</p>
+		<div class="scale">
+			<div class="rotate">
+				<div class="hexagon translate">
+					<div class="hexTop"></div>
+					<div class="hexBottom"></div>
+				</div>
+				<!--translate-->
+			</div>
+			<!--rotate-->
+		</div>
+		<!--scale-->
+	</div>
+</body>
+</html>

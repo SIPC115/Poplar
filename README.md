@@ -18,7 +18,7 @@ Poplar web前端知识库
         - [补间动画&逐帧动画 ](https://github.com/SIPC115/Poplar/blob/master/CSS/css8.md)
         - [动画使用技巧](https://github.com/SIPC115/Poplar/blob/master/CSS/css9.md)
         - [transform中的Matrix(矩阵)](https://github.com/SIPC115/Poplar/blob/master/CSS/css10.md)
-        - 利用js来操控CSS动画
+        - [利用js来操控CSS动画](https://github.com/SIPC115/Poplar/blob/master/CSS/css11.md)
     - 响应式设计  
     - [CSS3 奇特的属性]  
 - javascript
@@ -91,6 +91,8 @@ Poplar web前端知识库
 * CSS DEMO  
     * [css1-3节案例](/demo/css/css1-3,html)  
     * [css2 flex布局](demo/css/css2-flex.html)
-    * [css3 3D动画](/demo/css/css3-3D.html)
+    * [css3 3D动画](/demo/css/css3-3D.html)  
+    * [css3 transform动画不同步研究](/demo/css/css4-transform.html)  
+    * [css3 逐帧动画演示](/demo/css/css5-step.html)
 
 
