@@ -35,7 +35,7 @@ Css遮罩是2008年4月由苹果公司添加到webkit引擎中的。遮罩提供
 
 关于mask详细介绍请看 [CSS遮罩——如何在CSS中使用遮罩](http://www.w3cplus.com/css3/css-masking.html)  
 
-# css3 filter 滤镜  
+# css3 filter 滤镜    
 兼容性： 
 ![](/image/css11-4.png)  
 Filters主要是运用在图片上，以实现一些特效。语法如下：  
@@ -60,7 +60,10 @@ elm {
 
 具体效果就是下面这样的：  
 ![](/image/css11-5.png)  
-具体效果，这里有个demo可供查看 [css3 filter滤镜研究](http://59.67.152.41:10080/codepencil/index.php/Code/index/cid/146#)  
+具体效果，这里有个demo可供查看 [css3 filter滤镜研究](http://59.67.152.41:10080/codepencil/index.php/Code/index/cid/146#)     
+
+~~(想当年，我就靠css filter属性，混过了数字图像处理的大实验O(∩_∩)O哈哈~)~~    
+
 
 # text-fill-color  
 兼容性：  
