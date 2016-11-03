@@ -64,7 +64,7 @@ elm {
 
 # text-fill-color  
 兼容性：  
-![](/image/css11-5.png)  
+![](/image/css11-6.png)  
 text-fill-color是CSS3中的属性，表示文字颜色填充，实现的效果基本上与color一样。从某种程度上讲text-fill-color与color基本上的作用是一样的，如果同时设置color与text-fill-color属性，显然是颜色填充覆盖本身的颜色，也就是文字显示text-fill-color设置的颜色  
 ext-fill-color还支持一个transparent属性，也就是透明填充。而这一属性可以实现一些精湛的UI表现，例如：  
 ## 文字渐变效果   
@@ -142,7 +142,8 @@ background-blend-mode: screen, multiply;
 * luminosity：亮度模式。“亮度”模式能够使用“混合色”颜色的亮度值进行着色，而保持“基色”颜色的饱和度和色相数值不变。其实就是用“基色”中的“色相”和“饱和度”以及“混合色”的亮度创建“结果色”。  
 
 下面的图片展示了在同一张图片上使用不同的混合模式所得到的不同结果。顺序是从左上角第一幅图片开始。  
-![](/image/css11-11.jpg)  
+![](/image/css11-11.jpg)    
+详细例子请参考demo [css3 mix研究](http://59.67.152.41:10080/codepencil/index.php/Code/index/cid/147)
 
 ### 元素与背景元素混合：mix-blend-mode属性  
 正如前面所提及的，一个背景（backdrop）是元素下面与背景图像相交的一部分内容。这个内容可以是任何东西，包括其他元素。这可以让我们制作出很多非常有趣的效果。想象一下一个固定的页面header在页面向下滚动时与某些元素进行混合，或者文本域背景图像进行混合，甚至是文本域其它文本进行混合等等。  
