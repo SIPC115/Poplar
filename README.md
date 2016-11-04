@@ -21,11 +21,13 @@ Poplar web前端知识库
         - [利用js来操控CSS动画](https://github.com/SIPC115/Poplar/blob/master/CSS/css11.md)
     - [响应式设计](https://github.com/SIPC115/Poplar/blob/master/CSS/css12.md)  
     - [CSS3 奇特的属性](https://github.com/SIPC115/Poplar/blob/master/CSS/css13.md)  
-- javascript
-    - 基本语法
-    - 闭包/原型链/this
+- Javascript
+    - js 基本语法1
+    - js 基本语法2
+    - 作用于与闭包
+    - this与对象
     - [类与继承](https://github.com/SIPC115/Poplar/blob/master/JS/class.md)
-    - DOM操作
+    - DOM 操作
     - 事件处理
     - 优化手段与编程技巧
     - ajax及跨域
