@@ -289,13 +289,13 @@ jQuery.type(new Number())   //"number"
 ##  一些特殊类型的检测  
 通常情况下Object.prototype.toString都能很好的完成任务，但是万恶的旧版本IE缺有bug存在：如图IE8调试台下（这里我没有IE浏览器了，所以截图是从我之前w3cfun上面的
 博客截取的，有水印没办法）：  
-![](/image/1-3.png)  
+![](/image/js1-3.png)  
 这主要是因为undefined 在javascript中并不是关键字，在IE8以下（之后的版本不可以赋值）是可以赋值的，查看jQuery.type源码可知，对于undefined检测由是 typeof undefined完成的。jQuery.type并不能在旧的IE中检测出undefined的正确性。想要获得纯净的undefined可以使用void 0   
-![](/image/1-4.png)   
+![](/image/js1-4.png)   
 对于DOM，BOM对象在旧的IE中使用Objec.prototype.toString检测出来的值均为 “[object Object]”  
-![](/image/1-5.png)  
+![](/image/js1-5.png)  
 chrome下：  
-![](/image/1-6.png)  
+![](/image/js1-6.png)  
 jQuery.type检测均为 “object”，jQuery中仅处理了window对象 isWindow，和一个isPlainObject用来检测对象是否是js纯净的对象（{}，new Object()声明的）:  
 
 ```javascript  
