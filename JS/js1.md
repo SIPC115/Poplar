@@ -111,7 +111,7 @@ var num3 = 070;
 var num4 = 0xA
 ```     
 在js中浮点数值的最高精度是17位小数，但在进行算术运算时，其精度远远不如证书。例如：0.1 + 0.2 并不等于 0.3，如下：  
-![](/image/js1-1/png)  
+![](/image/js1-1.png)  
 因此永远不要测试某个特定的浮点数值。    
 数值范围：由于内存限制，js并不能保存所有的数值，js能够表示的最小和最大值分别保存在：`Number.MIN_VALUE`和`Number.MAX_VALUE`中：  
 ![](/image/js1-2.png)  
@@ -155,7 +155,380 @@ num.toFixed(2); // 1.20
 ```    
 这里你会问，这不是Number对象的方法么，你这num也不是对象啊。这是因为当用户通过字面量方式声明一个变量，
 并在该变量上调用如toString等方法，JS脚本引擎会偷偷地创建该变量对应的包装对象，
-并在该对象上调用对应的方法；当调用结束，则销毁该对象；这个过程对于用户来说是不可见的。这也是字面量和new Number声明数字类型的区别。
+并在该对象上调用对应的方法；当调用结束，则销毁该对象；这个过程对于用户来说是不可见的。这也是字面量和new Number声明数字类型的区别。  
+
+
+## string 类型  
+用于表示由零或多个16位Unicode字符组成的字符序列，即字符串。字符串可以由双引号或单引号表示。  
+在js中字符串是不可变的，也就是说，字符串一旦创建，它们的值就不能改变，要想改变只能用新的变量保存：  
+
+```javascript  
+var str = "sipc115";
+str[0] = 'A';  //str 依然是 sipc115  
+```    
+转换为字符串用toString对象方法或者String()函数。  
+null和undefined是没有toString方法的，而String()函数可以应用在所有类型上面。   
+
+## Array 类型    
+Array即数组类型，js中的数组里面的数据类型不受限制，可以任意选择。声明一个数组主要有以下两种方法：  
+
+```javascript  
+var arr = new Array(3);   //创建一个包含3项的数组  
+var arr2 = new Array("a", "b");  //创建包含"a", "b"两项的内容  
+var arr3 = [1, 2, "a", "b"];     //字面量方式创建数组  
+``` 
+数组的长度包含在`length`属性中例如`arr.length`，我们可以通过下标的方式访问数组中的每一项如`arr[0]`;访问一个数组中不存在的项，会返回 undefined。   
+
+##  Undefined 类型  
+Undefined 类型只有一个值，特殊的`undefined`。在使用var声明变量但未对其加以初始化时，这个变量就是undefined。例如：  
+
+```javascript  
+var a;
+console.log(a == undefined);    //true  
+```    
+
+## Null 类型  
+Null 类型是第二个只有一个值的数据类型，即null。他用来表示一个空对象指针，通常我们向声明一个变量是对象类型，但是暂时又不知道什么值的时候可以用null赋值。  
+
+```javascript
+var obj = null;
+typeof obj; //object  
+```  
+
+实际上，undefined值派生自null值的，`null == undefined` 返回真。    
+
+## Boolean 类型 
+该类型只有 `true`和`false`两个字面值，各数据转换为布尔值的测试结果如下：  
+
+|数据类型|转换为true的值|转换为false的值|  
+|:---:|:---:|:---:|  
+|Boolean|true|false|  
+|String|任何非空字符串|""（空字符串）|  
+|Number|任何非零数字值(包括无穷大)|0和NaN|  
+|Object|任何对象|null|  
+|undefined|不适用|undefined|  
+
+## Math，Date，Regex  
+这三种类型，参考手册看吧  
+
+# 数据类型判定  
+Javascript自带两套类型：基本数据类型（undefined，string，null，boolean，function，object）和对象类型，但是Javascript对于这两套类型的检测机制非常的不靠谱，举个例子来说：  
+
+```javascript  
+typeof null  // "object"
+typeof []    // "object"
+typeof document.childNodes  //"object"
+typeof /d/  //"object"
+typeof new Number() //"object"
+```    
+上面都尝试用typeof 来检测数据类型，但是都一律返回"object"并不能加以区分，甚至连通过构造函数Number()产生的对象都不能正确识别，说明typeof不能检查复杂的数据类型，以及特殊用途的对象（正则表达式，日期等）
+这时尝试用 constructor 属性来检测类型的构造函数，从而区分这些对象：  
+
+```javascript    
+[].constructor === Array    //true
+document.childNodes === NodeList    //true
+/d/.constructor === RegExp     //true
+
+function isRegExp(obj) {
+    return obj && typeof obj === "object" && obj.constructor === RegExp;
+}  //检测正则表达式对象
+
+function isNull(obj){
+    return obj === null;
+} 
+```  
+貌似很美好了，但是依然出现了以外，不能检测iframe中的Array：  
+
+```javascript 
+var iframe = document.createElement("iframe");
+document.body.appendChild(iframe);
+var iArray = window.frames[0].Array;
+var arr = new iArray(1,2,3);    //arr [1,2,3]arr.constructor === Array   //false
+arr instanceof Array    //false
+```  
+
+可以看到，用construct检测可以完成大多数的类型检测，null特殊直接比较。然而iframe中的数组类型确无法检测出正确类型，这是用construct检测的一个缺陷；同时在旧版本IE下DOM和BOM的construct是无法访问的，这导致该方法失效。
+
+
+## 利用 Object.prototype.toString 来判断  
+利用Object.prototype.toString 可以轻松的实现数据类型的判断，例如：  
+
+```javascript   
+Object.prototype.toString.call([])  //"[object Array]"
+Object.prototype.toString.call(/d/)  // "[object RegExp]"
+Object.prototype.toString.call(1)//"[object Number]" 
+```  
+这里采用Object的toString方法是因为不同对象都会重新定义自己的toString方法。使用该方法检测数据类型也是目前主流js框架的通用方法。查看jQuery源代码中：  
+
+```javascript   
+/*
+ *  jQuery JavaScript Library v1.11.2
+ */
+var class2type = {};    //用来保存js数据类型
+
+jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name) {
+        class2type[ "[object " + name + "]" ] = name.toLowerCase();
+});
+
+type: function( obj ) {
+                if ( obj == null ) {
+                        return obj + "";
+                }
+                return typeof obj === "object" || typeof obj === "function" ?
+                        class2type[ toString.call(obj) ] || "object" :
+                        typeof obj;
+        },
+/****************************/        
+jQuery.type(/d/)   //"regexp"
+jQuery.type(new Number())   //"number"
+```  
+
+代码首先构造class2type存储常用类型的映射关系，遍历基本类型并赋值，键值为 [object 类型]，之后type函数为判断类型，首先如果是null则返回null字符串，接着判断给定参数类型是否为object或者function是的话在映射表中寻找 toString后的键值名称并返回，不是的话利用typeof就可以得到正确类型。
+在其他的框架中，同样采用该方式判定类型，只不过有的是isXXX类的函数为没有像jQuery.type的方法了。  
+
+##  一些特殊类型的检测  
+通常情况下Object.prototype.toString都能很好的完成任务，但是万恶的旧版本IE缺有bug存在：如图IE8调试台下（这里我没有IE浏览器了，所以截图是从我之前w3cfun上面的
+博客截取的，有水印没办法）：  
+![](/image/1-3.png)  
+这主要是因为undefined 在javascript中并不是关键字，在IE8以下（之后的版本不可以赋值）是可以赋值的，查看jQuery.type源码可知，对于undefined检测由是 typeof undefined完成的。jQuery.type并不能在旧的IE中检测出undefined的正确性。想要获得纯净的undefined可以使用void 0   
+![](/image/1-4.png)   
+对于DOM，BOM对象在旧的IE中使用Objec.prototype.toString检测出来的值均为 “[object Object]”  
+![](/image/1-5.png)  
+chrome下：  
+![](/image/1-6.png)  
+jQuery.type检测均为 “object”，jQuery中仅处理了window对象 isWindow，和一个isPlainObject用来检测对象是否是js纯净的对象（{}，new Object()声明的）:  
+
+```javascript  
+isWindow: function( obj ) {
+                return obj != null && obj == obj.window;
+        },
+        
+        isPlainObject: function( obj ) {
+                var key;
+                if ( !obj || jQuery.type(obj) !== "object" || obj.nodeType || jQuery.isWindow( obj ) ) {
+                        return false;
+                }
+
+                try {
+                        if ( obj.constructor &&
+                                !hasOwn.call(obj, "constructor") &&
+                                !hasOwn.call(obj.constructor.prototype, "isPrototypeOf") ) {
+                                return false;
+                        }
+                } catch ( e ) {
+                        return false;
+                }
+                if ( support.ownLast ) {
+                        for ( key in obj ) {
+                                return hasOwn.call( obj, key );
+                        }
+                }
+                for ( key in obj ) {}
+
+                return key === undefined || hasOwn.call( obj, key );
+        },  
+```  
+检测window对象：ECMA规定window为全局对象global，且global.window === global
+判断纯净的对象：判断它最近的原形对象是否含有isPrototypeOf属性
+mass Framework中，将可能出现的类型都映射在了class2type对象中，从而减少isXXX函数，对DOM，BOM对象采用nodeType（单一）和item（节点集合）进行判断:  
+
+```javascript   
+var class2type = {
+        "[object HTMLDocument]": "Document",
+        "[object HTMLCollection]": "NodeList",
+        "[object StaticNodeList]": "NodeList",
+        "[object DOMWindow]": "Window",
+        "[object global]": "Window",
+        "null": "Null",
+        "NaN": "NaN",
+        "undefined": "Undefined"
+    };
+
+ type: function(obj, str) {
+            var result = class2type[(obj == null || obj !== obj) ? obj : serialize.call(obj)] || obj.nodeName || "#"; //serialize == class2type.toString
+            if (result.charAt(0) === "#") { //兼容旧式浏览器与处理个别情况,如window.opera
+                //利用IE678 window == document为true,document == window竟然为false的神奇特性
+                if (obj == obj.document && obj.document != obj) {
+                    result = "Window"; //返回构造器名字
+                } else if (obj.nodeType === 9) {
+                    result = "Document"; //返回构造器名字
+                } else if (obj.callee) {
+                    result = "Arguments"; //返回构造器名字
+                } else if (isFinite(obj.length) && obj.item) {
+                    result = "NodeList"; //处理节点集合
+                } else {
+                    result = serialize.call(obj).slice(8, -1);
+                }
+            }
+            if (str) {
+                return str === result;
+            }
+            return result;
+        } 
+```  
+
+mass.js中的type已经十分全面了，非常有用。  
+
+## 类数组 
+类数组是一类特殊的数据类型存在，他们本身类似Array但是又不能使用Array的方法，他们有一个明显的特点就是含有length属性，而且键值是以整数有序的排列的。这样的数组可以通过 Array.slice() 这样的方法转换成真正的数组，从而使用Array提供的方法。
+常见类数组：arguments，document.forms，document.getElementsByClassName(等一些列节点集合NodeList，HTMLCollection)，或者是一些特殊对象：  
+![](/image/js1-7.png)  
+通常情况下通过Array.slice.call既可以转换类数组，但是旧IE的HTMLCollection，NodeList不是Object的子类，不能使用该方法，这时候需要构建一个空数组，然后将遍历节点push就如空数组中，返回新生成的数组即可，同时要区别出window 和 string对象，因为这类的对象同样含有length>=0（length不可被修改），但是不是类数组。看一下各插件的源码：  
+
+```javascript  
+//jQuery 
+makeArray: function( arr, results ) {
+                var ret = results || [];
+
+                if ( arr != null ) {
+                        if ( isArraylike( Object(arr) ) ) {
+                                jQuery.merge( ret,
+                                        typeof arr === "string" ?
+                                        [ arr ] : arr
+                                );   //jQuery.merge 合并数组 ，若是字符串则封装成数组河滨，不是则世界合并
+                        } else {
+                                push.call( ret, arr );
+                        }
+                }
+
+                return ret;
+        }
+
+//Ext.js
+  toArray: function(iterable, start, end) {
+                if (!iterable || !iterable.length) {
+                    return [];   //非类数组类型直接返回[]
+                }
+                if (typeof iterable === 'string') {
+                    iterable = iterable.split('');   //分解字符串
+                }
+                if (supportsSliceOnNodeList) {
+                    return slice.call(iterable, start || 0, end || iterable.length); //对于NodeList支持
+                }
+                var array = [],
+                    i;
+                start = start || 0;
+                end = end ? ((end < 0) ? iterable.length + end : end) : iterable.length;
+                for (i = start; i < end; i++) {
+                    array.push(iterable[i]);
+                }
+                return array;
+            }
+//mass.js
+slice: W3C ? function(nodes, start, end) {    //var W3C = DOC.dispatchEvent; IE9开始支持W3C的事件模型
+            return factorys.slice.call(nodes, start, end);
+        } : function(nodes, start, end) {
+            var ret = [],
+                    n = nodes.length;
+            if (end === void 0 || typeof end === "number" && isFinite(end)) {
+                start = parseInt(start, 10) || 0;
+                end = end == void 0 ? n : parseInt(end, 10);
+                if (start < 0) {
+                    start += n;
+                }
+                if (end > n) {
+                    end = n;
+                }
+                if (end < 0) {
+                    end += n;
+                }
+                for (var i = start; i < end; ++i) {
+                    ret[i - start] = nodes[i];
+                }
+            }
+            return ret;
+        }
+```  
+其中mass.js直接复写Array.slice的方法实现类数组转换。
+附上参考上述内容，自己写的一个方法：  
+
+```javascript  
+var caelum = (function(){
+        var _W3C = document.dispatchEvent;   //IE9+才支持该属性
+        var _toString = Object.prototype.toString;
+        var _factory = Array.prototype.slice;
+        var _class2type = {
+                "null" : "null",
+                "NaN" : "NaN",
+                "[object Number]" : "number",
+                "[object Boolean]" : "boolean",
+                "[object String]" : "string",
+                "[object Function]" : "function",
+                "[object Array]" : "array",
+                "[object RegExp]" : "regexp",
+                "[object Date]" : "date",
+                "[object HTMLDocument]" : "Document",
+                "[object HTMLCollection]" : "NodeList",
+                "[object StaticNodeList]" : "NodeList",
+                "[object DOMWindow]" : "Window",
+                "[object global]" : "Window",
+                "[object Arguments]" : "Arguments"
+        }
+        function init_type(obj, str){
+                if(obj === void 0){
+                        return "undefined";
+                }
+                var result = _class2type[ (obj === null || obj !== obj) ? obj : _toString.call(obj) ] || obj.nodeName;
+                // 兼容IE8以下window检测
+                if(obj == obj.window){
+                        result = "Window";
+                }else if(obj.nodeType === 9){
+                        result = "Document";
+                }else if(obj.callee){
+                        result = "Arguments";
+                }else if(isFinite(obj.length) && obj.item){
+                        result = "NodeList";    //检测是否含有item属性，且length为数字
+                }
+                return result;
+        }
+        function makeArray(obj, start, end){
+                //惰性载入函数
+                if(_W3C){
+                        makeArray = function(obj, start, end){
+                                return _factory.call(obj, start, end);
+                        }
+                }else{
+                        //主要是处理IE9以下，节点类数组
+                        makeArray = function(obj, start, end){
+                            if (!obj || !obj.length) {
+                    return [];
+                }
+                                var array = [],
+                                        length = obj.length,
+                                        start = start || 0,
+                                        end = end ? ((end < 0) ? length + end : end) : length;   //处理-1这样的情况
+                                for(var i = start; i < end ;i++){
+                                        array.push(obj[i]);
+                                }
+                                return array;
+                        }
+                }
+                return makeArray(obj, start, end);   //立即调用
+        }
+        return {
+                type : init_type,
+                toArray : makeArray
+        }
+})()     //数据类型判断 数组转换 module方式  
+```  
+
+# 附录  
+参考资料如下：  
+* [javascript高级程序设计第三版](http://item.jd.com/10951037.html)  
+* [jQuery框架设计](https://item.jd.com/11436424.html)  
+* [jQuery2.2 源码](https://github.com/jquery/jquery/tree/2.2-stable)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
