@@ -71,8 +71,8 @@ Javascript语言的一个特点，就是允许"动态绑定"，即某些属性�
 
 ### 禁止八进制表示法  
 ### arguments 对象的限制   
-1. 不允许对arguments赋值  
-2. arguments不再追踪参数的变化    
+1.不允许对arguments赋值    
+2.arguments不再追踪参数的变化      
 
 ```javascript  
 function f(a) {
@@ -87,7 +87,7 @@ function f(a) {
 }
 f(1); // 严格模式为[2,1]  
 ``` 
-3. 禁止使用arguments.callee：这意味着，你无法在匿名函数内部调用自身了。  
+3.禁止使用arguments.callee：这意味着，你无法在匿名函数内部调用自身了。    
 
 ### 函数必须声明在顶层  
 将来Javascript的新版本会引入"块级作用域"。为了与新版本接轨，严格模式只允许在全局作用域或函数作用域的顶层声明函数。也就是说，不允许在非函数的代码块内声明函数。  
