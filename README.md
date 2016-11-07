@@ -22,9 +22,9 @@ Poplar web前端知识库
     - [响应式设计](https://github.com/SIPC115/Poplar/blob/master/CSS/css12.md)  
     - [CSS3 奇特的属性](https://github.com/SIPC115/Poplar/blob/master/CSS/css13.md)  
 - Javascript
-    - js 基本语法1
+    - [js 基本语法1](https://github.com/SIPC115/Poplar/blob/master/JS/js1.md)
     - js 基本语法2
-    - 作用于与闭包
+    - 作用域与闭包
     - this与对象
     - [类与继承](https://github.com/SIPC115/Poplar/blob/master/JS/class.md)
     - DOM 操作
