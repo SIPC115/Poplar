@@ -30,6 +30,35 @@
             vertical-align: baseline;
             /* 2 */
         }
+        ::-webkit-scrollbar{
+		    width:10px;
+		    height:6px;
+		    background-color:#fff;
+		}
+		::-webkit-scrollbar:hover{
+		    background-color: #fbfbfb;
+		    border: 1px solid #e1e1e1;
+		}
+		::-webkit-scrollbar-thumb{
+		    min-height:5px;
+		    min-width:15px;
+		    width: 10px;
+		    -webkit-border-radius:20px;
+		    background-color: #7f7f7f;
+		}
+		::-webkit-scrollbar-thumb:hover{
+            transform: scale(1.5);
+		    min-height:5px;
+		    min-width:15px;
+		    width: 15px;
+		    -webkit-border-radius:20px;
+		    background-color: #7f7f7f;
+		}
+		::-webkit-scrollbar-thumb:active{
+		    -webkit-border-radius:20px;
+		    background-color: #aaa;
+		}
+
     </style>
 </head>
 <body>
@@ -38,7 +67,7 @@
     </header>
     <section class="error-include">
         <h2>错误标签嵌套</h2>
-        <div class="content">
+        <div class="content" style="height: 1500px;">
             <p>
                 <div>例子</div>
             </p>
