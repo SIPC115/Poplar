@@ -500,7 +500,77 @@ function sum(array) {
     }
     return result;
 }
+```  
+
+# 函数的扩展  
+## 函数柯里化    
+> 在计算机科学中，柯里化（英语：Currying），又译为卡瑞化或加里化，是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，
+并且返回接受余下的参数而且返回结果的新函数的技术。  
+
+实现如下：  
+
+```javascript  
+function currying(fn) {
+    function inner(len, arg) {
+        if(len <= 0) {
+            return fn.apply(null, arg);
+        }
+        return function() {
+            return inner(len - arguments.length, arg.concat(Array.apply([], arguments)));
+        }
+    }
+    return inner(fn.length, []);
+}  
 ```
+下面举个例子，来展示函数柯里化，我们这里定义一个sum计算参数和的函数，一共接受四个参数，每次调用都传入不同的参数。知道四个参数
+全有了，就计算结果。  
+
+```javascript  
+function sum(x, y, z, w) {
+    return x + y + z + w;
+}    
+currying(sum)("a")("b", "c")("d");    //返回 "abcd"  
+```  
+函数柯里化的具体好处，在函数式编程的时候再说。更多的函数扩展也放到函数式编程再说吧。   
+
+# 其他的扩展  
+## Date 扩展  
+js没有提供日期格式化的方法，为此在Date原型上进行补全  
+
+```javascript  
+/** 对Date的扩展，将 Date 转化为指定格式的String
+ * 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+ * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
+ * 例子： 
+ * (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
+ * (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18   
+ */
+Date.prototype.Format = function (fmt) { //author: meizz 
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "h+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o) { 
+        if(new RegExp("(" + k + ")").test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        }
+    }
+    return fmt;
+}  
+```  
+
+# 附录  
+参考内容如下：   
+* [jQuery 框架设计](https://item.jd.com/11436424.html)  
+* [jQuery2.2 源码](https://github.com/jquery/jquery/tree/2.2-stable)  
+* [undersorce.js](http://www.bootcss.com/p/underscore/#) 
+
 
 
 

@@ -23,16 +23,20 @@ Poplar web前端知识库
     - [CSS3 奇特的属性](https://github.com/SIPC115/Poplar/blob/master/CSS/css13.md)  
 - Javascript
     - [js 基本语法1](https://github.com/SIPC115/Poplar/blob/master/JS/js1.md)
-    - js 基本语法2
+    - [js 基本语法2](https://github.com/SIPC115/Poplar/blob/master/JS/js2.md)
+    - js 与内存
     - 作用域与闭包
     - this与对象
     - [类与继承](https://github.com/SIPC115/Poplar/blob/master/JS/class.md)
     - DOM 操作
     - 事件处理
     - 优化手段与编程技巧
-    - ajax及跨域
-    - ES6 新特性 
-- javascript设计模式
+    - ajax 及跨域
+    - ES6 新特性
+    - 函数式编程简介  
+    - RxJS 
+    - TypeScript 简介
+    - javascript 设计模式
 - js框架设计(jQuery源码解读)
 - 移动web前端
     - 移动web基础(布局等内容)
@@ -95,6 +99,9 @@ Poplar web前端知识库
     * [css2 flex布局](demo/css/css2-flex.html)
     * [css3 3D动画](/demo/css/css3-3D.html)  
     * [css3 transform动画不同步研究](/demo/css/css4-transform.html)  
-    * [css3 逐帧动画演示](/demo/css/css5-step.html)
+    * [css3 逐帧动画演示](/demo/css/css5-step.html)  
+* JS DEMO  
+    * [js 数据类型检测](/demo/js/type.js)  
+
 
 
