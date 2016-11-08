@@ -1,4 +1,4 @@
-Poplar web前端知识库 
+Poplar web前端知识库
 ===   
 要毕业了，把大学四年学到的前端知识总结出来(毕业20计划之一，怀念大学在115的时光)，希望大家能快速迈过我当年踩过的坑。这里的内容，不会阐述基础知识，建议对前端有一定的了解后再看。当然了，希望这个东西能有个传承，也希望有更多的人来把她传递下去，完善和修正。  
 
@@ -34,7 +34,7 @@ Poplar web前端知识库
     - ajax 及跨域
     - ES6 新特性
     - 函数式编程简介  
-    - RxJS 
+    - RxJS
     - TypeScript 简介
     - javascript 设计模式
 - js框架设计(jQuery源码解读)
@@ -65,7 +65,7 @@ Poplar web前端知识库
     - 高效使用内存
     - js动画设计原则(FPS控制)
     - 调试工具与性能检测
-    - ...... 
+    - ......
 - 浏览器差异
 - HTTP协议
     - 协议简介
@@ -76,13 +76,18 @@ Poplar web前端知识库
     - httpDNS与SPDY等其他内容
 - Node.js  
     - 后端基础知识
-    - Node基础内容
+    - [Node基础内容](./node/Node基础内容.md)
     - 异步编程模型
     - 集群与稳定之路
     - 高并发浅析
     - Express/Koa对比
     - generator与co提高异步编程
     - Node.js优化
+    - [nvm-node版本控制](./node/nvm.md)
+    - [mongodb-nosql数据库](./node/mongodb.md)
+    - [nrm-npm源切换工具](./node/nrm.md)
+    - [PM2 - 是一个带有负载均衡功能的 Node 应用的进程管理器](./Node/PM2.md)
+    - [pre-commit - 一个好用的git钩子](./Node/pre-commit.md)
     - ......
 - 前端也需要数据结构
 - 项目问题汇总
@@ -102,6 +107,3 @@ Poplar web前端知识库
     * [css3 逐帧动画演示](/demo/css/css5-step.html)  
 * JS DEMO  
     * [js 数据类型检测](/demo/js/type.js)  
-
-
-
