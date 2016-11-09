@@ -403,7 +403,7 @@ function flatten(array) {
 
 ```javascript   
 function random(array) {
-    return array[Math.random() * array.length];
+    return array[Math.floor(Math.random() * array.length)];
 } 
 ```  
 
