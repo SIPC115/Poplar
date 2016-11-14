@@ -70,3 +70,124 @@ console.log(per.age);   //"tgy"的年龄是21;
 这里我们设置和获取age属性，都是对_age直接操作，因为如果直接对age属性操作，的话会递归自身的get，set方法，从而陷入无限循环。   
 
 ## 属性操作的方法  
+下面扩展介绍几个，常用的关于对象的函数
+### Object.defineProperties()  
+Object.defineProperties() 方法在一个对象上添加或修改一个或者多个自有属性，并返回该对象。例如：  
+
+```js  
+var obj = {};
+Object.defineProperties(obj, {
+  "property1": {
+    value: true,
+    writable: true
+  },
+  "property2": {
+    value: "Hello",
+    writable: false
+  }
+  // 等等.
+});
+alert(obj.property2) //弹出"Hello"  
+```  
+
+### Object.create()  
+Object.create() 方法创建一个拥有指定原型和若干个指定属性的对象。  
+参数：
+* proto 一个对象，作为新创建对象的原型。   
+* propertiesObject 可选。该参数对象是一组属性与值，该对象的属性名称将是新创建的对象的属性名称，值是属性描述符（这些属性描述符的结构与Object.defineProperties()的第二个参数一样）。
+注意：该参数对象不能是 undefined，另外只有该对象中自身拥有的可枚举的属性才有效，也就是说该对象的原型链上属性是无效的。  
+
+这个函数常用来创建纯净的对象，和类继承使用。  
+
+### Object.freeze()  
+方法可以冻结一个对象，冻结指的是不能向这个对象添加新的属性，不能修改其已有属性的值，不能删除已有属性，
+以及不能修改该对象已有属性的可枚举性、可配置性、可写性。也就是说，这个对象永远是不可变的。该方法返回被冻结的对象。例如：  
+
+```js  
+var obj = {
+  prop: function (){},
+  foo: "bar"
+};
+
+// 可以添加新的属性,已有的属性可以被修改或删除
+obj.foo = "baz";
+obj.lumpy = "woof";
+delete obj.prop;
+
+var o = Object.freeze(obj);
+
+assert(Object.isFrozen(obj) === true);
+
+// 现在任何修改操作都会失败
+obj.foo = "quux"; // 静默失败
+obj.quaxxor = "the friendly duck"; // 静默失败,并没有成功添加上新的属性
+
+// ...在严格模式中会抛出TypeError异常
+function fail(){
+  "use strict";
+  obj.foo = "sparky"; // 抛出TypeError异常
+  delete obj.quaxxor; // 抛出TypeError异常
+  obj.sparky = "arf"; // 抛出TypeError异常
+}
+
+fail();
+
+// 使用Object.defineProperty方法同样会抛出TypeError异常
+Object.defineProperty(obj, "ohai", { value: 17 }); // 抛出TypeError异常
+Object.defineProperty(obj, "foo", { value: "eit" }); // 抛出TypeError异常  
+```  
+
+### Object.getPrototypeOf()  
+返回指定对象的原型，也就是对象内部属性[Prototype]的值  
+
+### Object.getOwnPropertyDescriptor()  
+返回指定对象上一个自有属性对应的属性描述符。（自有属性指的是直接赋予该对象的属性，不需要从原型链上进行查找的属性）  
+
+```js  
+var o, d;
+
+o = { get foo() { return 17; } };
+d = Object.getOwnPropertyDescriptor(o, "foo");
+// d is { configurable: true, enumerable: true, get: /*访问器函数*/, set: undefined }
+
+o = { bar: 42 };
+d = Object.getOwnPropertyDescriptor(o, "bar");
+// d is { configurable: true, enumerable: true, value: 42, writable: true }
+
+o = {};
+Object.defineProperty(o, "baz", { value: 8675309, writable: false, enumerable: false });
+d = Object.getOwnPropertyDescriptor(o, "baz");
+// d is { value: 8675309, writable: false, enumerable: false, configurable: false }  
+```  
+
+### Object.getOwnPropertyNames()  
+方法返回一个由指定对象的所有自身属性的属性名（包括不可枚举属性）组成的数组。  
+
+```js  
+var arr = ["a", "b", "c"];
+console.log(Object.getOwnPropertyNames(arr).sort()); // ["0", "1", "2", "length"]
+
+// 类数组对象
+var obj = { 0: "a", 1: "b", 2: "c"};
+console.log(Object.getOwnPropertyNames(obj).sort()); // ["0", "1", "2"]
+
+// 使用Array.forEach输出属性名和属性值
+Object.getOwnPropertyNames(obj).forEach(function(val, idx, array) {
+  console.log(val + " -> " + obj[val]);
+});
+// 输出
+// 0 -> a
+// 1 -> b
+// 2 -> c
+
+//不可枚举属性
+var my_obj = Object.create({}, {
+  getFoo: {
+    value: function() { return this.foo; },
+    enumerable: false
+  }
+});
+my_obj.foo = 1;
+
+console.log(Object.getOwnPropertyNames(my_obj).sort()); // ["foo", "getFoo"]  
+```
