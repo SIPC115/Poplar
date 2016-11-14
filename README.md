@@ -24,8 +24,8 @@ Poplar web前端知识库
 - Javascript
     - [js 基本语法1](https://github.com/SIPC115/Poplar/blob/master/JS/js1.md)
     - [js 基本语法2](https://github.com/SIPC115/Poplar/blob/master/JS/js2.md)
-    - [作用域与闭包](https://github.com/SIPC115/Poplar/blob/master/JS/js3.md)
-    - this与对象
+    - [作用域，提升与闭包](https://github.com/SIPC115/Poplar/blob/master/JS/js3.md)
+    - this 与对象
     - [类与继承](https://github.com/SIPC115/Poplar/blob/master/JS/class.md)
     - DOM 操作
     - 事件处理
@@ -102,6 +102,8 @@ Poplar web前端知识库
     * [css3 逐帧动画演示](/demo/css/css5-step.html)  
 * JS DEMO  
     * [js 数据类型检测](/demo/js/type.js)  
+    * [js 简易模块化](/demo/js/module.js)  
+      
 
 
 
