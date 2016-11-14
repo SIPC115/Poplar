@@ -3,7 +3,8 @@ Node.js框架之express与koa对比分析
 # 背景介绍  
 ## Express   
 > 2009年6月26日，TJ Holowaychuk提交了Express的第一次commit，接下来在2010年1月2日，
-有660次commits的Express 0.0.1版本正式发布。TJ和Ciaron Jessup是当时最主要的两个代码贡献者。  
+有660次commits的Express 0.0.1版本正式发布。TJ和Ciaron Jessup是当时最主要的两个代码贡献者。   
+
 ## Koa  
 > 大概在差不多一年前的2013年8月17日，TJ Holowaychuk（又是他！）只身一人提交了Koa的第一次commit。他描述Koa为“表现力强劲的Node.js中间件，通过co使用generators使得编写web应用程序和REST API更加丝般顺滑”。
 Koa被标榜为只占用约400行源码空间的框架。  
