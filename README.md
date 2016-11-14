@@ -24,12 +24,12 @@ Poplar web前端知识库
 - Javascript
     - [js 基本语法1](https://github.com/SIPC115/Poplar/blob/master/JS/js1.md)
     - [js 基本语法2](https://github.com/SIPC115/Poplar/blob/master/JS/js2.md)
-    - js 与内存
-    - 作用域与闭包
+    - [作用域与闭包](https://github.com/SIPC115/Poplar/blob/master/JS/js3.md)
     - this与对象
     - [类与继承](https://github.com/SIPC115/Poplar/blob/master/JS/class.md)
     - DOM 操作
     - 事件处理
+    - js 与内存
     - 优化手段与编程技巧
     - ajax 及跨域
     - ES6 新特性
