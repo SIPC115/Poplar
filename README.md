@@ -29,7 +29,7 @@ Poplar web前端知识库
     - [作用域，提升与闭包](https://github.com/SIPC115/Poplar/blob/master/JS/js3.md)  
     - [this 与对象](https://github.com/SIPC115/Poplar/blob/master/JS/js4.md)
     - [类与继承](https://github.com/SIPC115/Poplar/blob/master/JS/js5.md)
-    - js 内存
+    - [js 内存管理](https://github.com/SIPC115/Poplar/blob/master/JS/js6.md)
     - DOM 操作
     - 事件处理
     - 优化手段与编程技巧
