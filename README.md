@@ -1,7 +1,7 @@
 Poplar web前端知识库 
 ===   
 要毕业了，把大学四年学到的前端知识总结出来(毕业20计划之一，怀念大学在115的时光)，希望大家能快速迈过我当年踩过的坑。这里的内容，不会阐述基础知识，建议对前端有一定的了解后再看。当然了，希望这个东西能有个传承，也希望有更多的人来把她传递下去，完善和修正。  
-下面这张图，是大学应该学会的前端技能列表(遗憾我的专业课学的太差劲了,一定要重视操作系统)。  
+下面这张图，是大学应该学会的前端技能列表(遗憾我的专业课学的太差劲了,一定要重视学校学的基础知识)。     
 ![](/image/main.png)  
 
 ## 目录结构(临时)  
@@ -27,7 +27,7 @@ Poplar web前端知识库
     - [js 基本语法1](https://github.com/SIPC115/Poplar/blob/master/JS/js1.md)
     - [js 基本语法2](https://github.com/SIPC115/Poplar/blob/master/JS/js2.md)
     - [作用域，提升与闭包](https://github.com/SIPC115/Poplar/blob/master/JS/js3.md)  
-    - [this与对象](https://github.com/SIPC115/Poplar/blob/master/JS/js4.md)
+    - [this 与对象](https://github.com/SIPC115/Poplar/blob/master/JS/js4.md)
     - [类与继承](https://github.com/SIPC115/Poplar/blob/master/JS/js5.md)
     - js 内存
     - DOM 操作
