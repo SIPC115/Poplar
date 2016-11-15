@@ -1,4 +1,4 @@
-对象，this与原型  
+this与对象
 ===  
 # 对象  
 ## 属性描述符  
@@ -77,15 +77,15 @@ Object.defineProperties() 方法在一个对象上添加或修改一个或者多
 ```js  
 var obj = {};
 Object.defineProperties(obj, {
-  "property1": {
-    value: true,
-    writable: true
-  },
-  "property2": {
-    value: "Hello",
-    writable: false
-  }
-  // 等等.
+    "property1": {
+        value: true,
+        writable: true
+    },
+    "property2": {
+        value: "Hello",
+        writable: false
+    }
+    // 等等.
 });
 alert(obj.property2) //弹出"Hello"  
 ```  
@@ -182,12 +182,262 @@ Object.getOwnPropertyNames(obj).forEach(function(val, idx, array) {
 
 //不可枚举属性
 var my_obj = Object.create({}, {
-  getFoo: {
-    value: function() { return this.foo; },
-    enumerable: false
-  }
+    getFoo: {
+        value: function() { return this.foo; },
+        enumerable: false
+    }
 });
 my_obj.foo = 1;
 
 console.log(Object.getOwnPropertyNames(my_obj).sort()); // ["foo", "getFoo"]  
-```
+```  
+
+之后在《类与继承》中会讲通过类来创建一个对象    
+
+# this    
+this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。  
+随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是**this指的是，调用函数的那个对象**(也就是函数的调用位置)。   
+## this 的绑定规则  
+### 1. 默认绑定   
+首先要介绍的是最常用的函数调用类型：独立函数调用。可以把这条规则看作是无法应用
+其他规则时的默认规则。例如：  
+
+```js   
+function foo() {
+    console.log( this.a );
+} 
+var a = 2;
+foo(); // 2
+```   
+这里foo中的this指向的是window对象，我们可以把这个看做是this的默认规则，默认情况下this指向全局对象。  
+那么我们怎么知道这里应用了默认绑定呢？可以通过分析调用位置来看看foo() 是如何调
+用的。在代码中，foo() 是直接使用不带任何修饰的函数引用进行调用的，因此只能使用
+默认绑定，无法应用其他规则。其实呢，foo的调用也可以看作是`window.foo()`这样我们可以根据**this指的是，调用函数的那个对象**原则，知道foo中
+的this一定指向window。   
+注意：在严格模式下，this是无法执行默认绑定的，上述代码会出异常：`TypeError: this is undefined`。  
+
+### 2. 隐式绑定  
+另一条需要考虑的规则是调用位置是否有上下文对象，或者说是否被某个对象拥有或者包含。看下面的代码：  
+
+```js  
+function foo() {
+    console.log( this.a );
+}
+var obj = {
+    a: 2,
+    foo: foo
+};
+obj.foo(); // 2  
+```  
+这里foo函数被obj调用，因此foo中的this被认为是obj对象，所以输出了2。 
+注意：对象属性引用链中只有最顶层或者说最后一层会影响调用位置。例如：    
+
+```js    
+function foo() {
+    console.log( this.a );
+}
+var obj2 = {
+    a: 42,
+    foo: foo
+};
+var obj1 = {
+    a: 2,
+    obj2: obj2
+};
+obj1.obj2.foo(); // 42  
+```  
+这里调用foo的是obj2（也就是最接近调用foo函数的对象）  
+
+### 3. 隐式丢失  
+一个最常见的this 绑定问题就是被隐式绑定的函数会丢失绑定对象，也就是说它会应用默认绑定，从
+而把this 绑定到全局对象或者undefined 上，取决于是否是严格模式。例如：    
+
+```js   
+function foo() {
+    console.log( this.a );
+}
+var obj = {
+    a: 2,
+    foo: foo
+};
+var bar = obj.foo; // 函数别名！
+var a = "oops, global"; // a 是全局对象的属性
+bar(); // "oops, global" 
+```  
+虽然bar 是obj.foo 的一个引用，但是实际上，它引用的是foo 函数本身，因此此时的
+bar() 其实是一个不带任何修饰的函数调用，因此应用了默认绑定。
+一种更微妙、更常见并且更出乎意料的情况发生在传入回调函数时：  
+
+```js   
+function foo() {
+    console.log( this.a );
+}
+function doFoo(fn) {
+    // fn 其实引用的是foo
+    fn(); // <-- 调用位置！
+}
+var obj = {
+    a: 2,
+    foo: foo
+};
+var a = "oops, global"; // a 是全局对象的属性
+doFoo( obj.foo ); // "oops, global" 
+```  
+参数传递其实就是一种隐式赋值，因此我们传入函数时也会被隐式赋值，所以结果和上一个例子一样。  
+
+### 显式绑定  
+在 javascript 中，call 和 apply 都是为了改变某个函数运行时的上下文（context）而存在的，
+换句话说，就是为了改变函数体内部 this 的指向。例如：  
+
+```js  
+function sayName(other) {
+    console.log(this.name, other);
+}  
+var per = {
+    name: "hyang"
+}
+sayName.call(per, "tgy");    //"hyang" "tgy"  
+```  
+这里本来直接调用sayName函数，this会指向window。但是我们利用call函数，改变了sayName执行的时候this的
+指向为per对象。
+对于 apply、call 二者而言作用完全一样，二者接受的第一个参数都是要具体制定的this内容，只是第二个参数的存在差别。  
+apply接受的第二个参数为数组。  
+
+```js  
+sayName.apply(per, ["tgy"]);  
+```  
+利用call和apply来改变this的指向，在js中十分有用，他可以简化我们的编程。例如：  
+求数组中最大的数：  
+
+```js  
+var arr = [1, -1, 2, 51, 0]
+Math.max.apply(Math, arr);  
+```  
+再比如直接修改原生方法：给console.log信息加上 "(Hyang)"前缀：  
+
+```js  
+var _log = console.log;
+console.log = function() {
+    //利用call将类数组，转变成数组
+    var args = [].slice.call(arguments);
+    args.unshift("(Hyang)");
+    _log.apply(console, args);
+}  
+console.log("tgy");    //"(Hyang) tgy";
+```  
+bind() 方法与 apply 和 call 很相似，也是可以改变函数体内 this 的指向。  
+MDN的解释是：bind()方法会创建一个新函数，称为绑定函数，当调用这个绑定函数时，
+绑定函数会以创建它时传入 bind()方法的第一个参数作为 this，传入 bind() 方法的第二个以及以后的参数加上
+绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。看看bind的用法：  
+
+#### 创建绑定函数  
+bind() 最简单的用法是创建一个函数，使这个函数不论怎么调用都有同样的 this 值。JavaScript新手经常犯的一个错误是将一个方法从对象中拿出来，然后再调用，希望方法中的 this 是原来的对象。（比如在回调中传入这个方法。）
+如果不做特殊处理的话，一般会丢失原来的对象。从原来的函数和原来的对象创建一个绑定函数，则能很漂亮地解决这个问题：  
+
+```js  
+this.x = 9; 
+var module = {
+    x: 81,
+    getX: function() { return this.x; }
+};
+
+module.getX(); // 返回 81
+
+var retrieveX = module.getX;
+retrieveX(); // 返回 9, 在这种情况下，"this"指向全局作用域
+
+// 创建一个新函数，将"this"绑定到module对象
+// 新手可能会被全局的x变量和module里的属性x所迷惑
+var boundGetX = retrieveX.bind(module);
+boundGetX(); // 返回 81  
+```  
+#### 分离函数 
+bind()的另一个最简单的用法是使一个函数拥有预设的初始参数。这些参数（如果有的话）作为bind()的第二个参数跟在this（或其他对象）后面，
+之后它们会被插入到目标函数的参数列表的开始位置，传递给绑定函数的参数会跟在它们的后面。  
+
+```js  
+function list() {
+    return Array.prototype.slice.call(arguments);
+}
+
+var list1 = list(1, 2, 3); // [1, 2, 3]
+
+var leadingThirtysevenList = list.bind(undefined, 37);
+
+var list2 = leadingThirtysevenList(); // [37]
+var list3 = leadingThirtysevenList(1, 2, 3); // [37, 1, 2, 3]  
+```  
+
+#### 配合 setTimeout  
+在默认情况下，使用 window.setTimeout() 时，this 关键字会指向 window （或全局）对象。当使用类的方法时，需要 this 引用类的实例，
+你可能需要显式地把 this 绑定到回调函数以便继续使用实例。  
+
+```js  
+function LateBloomer() {
+  this.petalCount = Math.ceil(Math.random() * 12) + 1;
+}
+
+LateBloomer.prototype.bloom = function() {
+    window.setTimeout(this.declare.bind(this), 1000);
+};
+
+LateBloomer.prototype.declare = function() {
+    console.log('I am a beautiful flower with ' +
+        this.petalCount + ' petals!');
+};
+
+var flower = new LateBloomer();
+flower.bloom();  // 一秒钟后, 调用'declare'方法  
+```  
+
+#### 作为构造函数使用的绑定函数  
+自然而然地，绑定函数适用于用new操作符 new 去构造一个由目标函数创建的新的实例。当一个绑定函数是用来构建一个值的，
+原来提供的 this 就会被忽略。然而, 原先提供的那些参数仍然会被前置到构造函数调用的前面。  
+
+```js  
+function Point(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+Point.prototype.toString = function() { 
+    return this.x + ',' + this.y; 
+};
+
+var p = new Point(1, 2);
+p.toString(); // '1,2'
+
+var emptyObj = {};
+var YAxisPoint = Point.bind(emptyObj, 0/*x*/);
+// 以下这行代码在 polyfill 不支持,
+// 在原生的bind方法运行没问题:
+//(译注：polyfill的bind方法如果加上把bind的第一个参数，即新绑定的this执行Object()来包装为对象，Object(null)则是{}，那么也可以支持)
+var YAxisPoint = Point.bind(null, 0/*x*/);
+
+var axisPoint = new YAxisPoint(5);
+axisPoint.toString(); // '0,5'
+
+axisPoint instanceof Point; // true
+axisPoint instanceof YAxisPoint; // true
+new Point(17, 42) instanceof YAxisPoint; // true  
+```    
+
+### new 绑定  
+调用new也会绑定一个this，这个情况在《类和继承》那节会有描述。   
+
+# 附录  
+参考资料如下：  
+
+* [javascript高级程序设计第三版](http://item.jd.com/10951037.html)   
+* [你不知道的javascript](http://item.jd.com/11676671.html)  
+* [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript)
+
+
+
+
+
+
+
+
+
+
