@@ -252,10 +252,130 @@ timeline 视图和 profiles 视图。
 timeline 视图是我们用于发现不正常内存模式的必要工具。当我们寻找严重的内存泄漏时，内存回收发生后产生的周期性的不会消减的内存跳跃式增长会被一面红旗标记。在这个截图里面我们可以看到，这很像是一个稳定的对象内存泄露。即便最后经历了一个很大的内存回收，它占用的内存依旧比开始时多得多。节点数也比开始要高。这些都是代码中某处 DOM 节点内存泄露的标志。  
 
 ## Profiles 视图  
-![](/image/js5-2.png)  
+![](/image/js5-2.jpg)  
 你将会花费大部分的时间在观察这个视图上。profiles 视图让你可以对 JavaScript 代码运行时的内存进行快照，并且可以比较这些内存快照。它还让你可以记录一段时间内的内存分配情况。在每一个结果视图中都可以展示不同类型的列表，但是对我们的任务最有用的是 summary 列表和 comparison 列表。
 
 summary 视图提供了不同类型的分配对象以及它们的合计大小：shallow size （一个特定类型的所有对象的总和）和 retained size （shallow size 加上保留此对象的其它对象的大小）。distance 显示了对象到达 GC 根（校者注：最初引用的那块内存，具体内容可自行搜索该术语）的最短距离。
 
-comparison 视图提供了同样的信息但是允许对比不同的快照。这对于找到泄露很有帮助。
+comparison 视图提供了同样的信息但是允许对比不同的快照。这对于找到泄露很有帮助。  
+
+## 案例  
+有两个重要类型的内存泄露：引起内存周期性增长的泄露和只发生一次且不引起更进一步内存增长的泄露。
+显而易见的是，寻找周期性的内存泄漏是更简单的。这些也是最麻烦的事情：如果内存会按时增长，
+泄露最终将导致浏览器变慢或者停止执行脚本。很明显的非周期性大量内存泄露可以很容易的在其他内存分配中被发现。
+但是实际情况并不如此，往往这些泄露都是不足以引起注意的。这种情况下，小的非周期性内存泄露可以被当做一个优化点。
+然而那些周期性的内存泄露应该被视为 bug 并且必须被修复。如下代码：  
+
+```js  
+var x = [];
+ 
+function createSomeNodes() {
+    var div,
+        i = 100,
+        frag = document.createDocumentFragment();
+    for (;i > 0; i--) {
+        div = document.createElement("div");
+        div.appendChild(document.createTextNode(i + " - "+ new Date().toTimeString()));
+        frag.appendChild(div);
+    }
+    document.getElementById("nodes").appendChild(frag);
+}
+function grow() {
+    x.push(new Array(1000000).join('x'));
+    createSomeNodes();
+    setTimeout(grow,1000);
+} 
+```    
+当调用 grow 的时候，它会开始创建 div 节点并且把他们追加到 DOM 上。
+它将会分配一个大数组并将它追加到一个全局数组中。这将会导致内存的稳定增长，
+使用上面提到的工具可以观察到这一点。  
+
+> 垃圾收集语言通常表现出内存用量的抖动。如果代码在一个发生分配的循环中运行时，
+这是很常见的。我们将要寻找那些在内存分配之后周期性且不会回落的内存增长。  
+
+### 查看内存周期性增长  
+在 Chrome 中运行这个例子，打开开发者工具，定位到 timeline，选择内存并且点击记录按钮。
+然后去到那个页面点击按钮开始内存泄露。一段时间后停止记录，然后观察结果：   
+
+![](/image/js6-1.png)  
+在图中有两个明显的标志表明我们正在泄漏内存。节点的图表（绿色的线）和 JS 堆内存（蓝色的线）。节点数稳定地增长并且从不减少。这是一个明显的警告标志。
+
+JS 堆内存表现出稳定的内存用量增长。由于垃圾回收器的作用，这很难被发现。你能看到一个初始内存的增长的图线，紧接着有一个很大的回落，接着又有一段增长然后出现了一个峰值，接着又是一个回落。这个情况的关键是在于一个事实，即每次内存用量回落时候，堆内存总是比上一次回落后的内存占用量更多。也就是说，尽管垃圾收集器成功地回收了很多的内存，还是有一部分内存周期性的泄露了。  
+
+### 拍两张快照  
+为了找到这个内存泄漏，我们将使用 Chrome 开发者工具红的 profiles 选项卡。为了保证内存的使用在一个可控制的范围内，在做这一步之前刷新一下页面。我们将使用 Take Heap Snapshot 功能。
+
+刷新页面，在页面加载结束后为堆内存捕获一个快照。我们将要使用这个快照作为我们的基准。然后再次点击按钮，等几秒，然后再拍一个快照。拍完照后，推荐的做法是在脚本中设置一个断点来停止它的运行，防止更多的内存泄露。  
+![](/image/js6-2.png)    
+可以看见内存在不断的增加。  
+有两个方法来查看快照之间的内存分配情况，其中一种方法需要选择 Summary 然后在右面选取在快照1和快照2之间分配的对象，
+另一种方法，选择 Comparison 而不是 Summary。两种方法下，我们都将会看到一个列表，列表中展示了在两个快照之间分配的对象。    
+![](/image/js6-3.png) 
+造成内存泄露的是（string），我们打开（string）构造函数分配列表，  
+我们会注意到在很多小内存分配中掺杂着的几个大量的内存分配。这些情况立即引起了我们的注意。
+如果我们选择它们当中的任意一个，我们将会在下面的 retainer 选项卡中得到一些有趣的结果。     
+![](/image/js6-4.png)
+我们发现我们选中的内存分配信息是一个数组的一部分。相应地，数组被变量 x 在全局 window 对象内部引用。
+这给我们指引了一条从我们的大对象到不会被回收的根节点（window）的完整的路径。我们也就找到了潜在的泄漏点以及它在哪里被引用。  
+使用上面的内存快照可以很容易地找到这些节点，但是在更大的站点中，事情变得复杂起来。最近，新的 Chrome 的版本中提供了一个附加的工具，这个工具十分适合我们的工作，这就是堆内存分配记录（Record Heap Allocations）功能  
+
+### 通过记录堆内存分配来发现内存泄露   
+取消掉你之前设置的断点让脚本继续运行，然后回到开发者工具的 Profiles 选项卡。现在点击 Record Heap Allocations。当工具运行时候你将注意到图表顶部的蓝色细线。这些代表着内存分配。我们的代码导致每秒钟都有一个大的内存分配发生。
+让它运行几秒然后让程序停止（不要忘记在此设置断点来防止 Chrome 吃掉过多的内存）。
+![](/image/js6-5.png)    
+在这张图中你能看到这个工具的杀手锏：选择时间线中的一片来观察在这段时间片中内存分配发生在什么地方。我们将时间片设置的尽量与蓝色线接近。只有三个构造函数在这个列表中显示出来：一个是与我们的大泄露有关的（string），一个是和 DOM 节点的内存分配相关的，另一个是 Text 构造函数（DOM 节点中的文本构造函数）。
+
+从列表中选择一个 HTMLDivElement 构造函数然后选择一个内存分配堆栈。  
+![](/image/js6-6.png)  
+我们现在知道那些元素在什么地方被分配了（grow -> createSomeNodes）。如果我们集中精神观察图像中的每个蓝色线，还会注意到 HTMLDivElement 的构造函数被调用了很多次。如果我们回到快照 comparison 视图就不难发现这个构造函数分配了很多次内存但是没有从未释放它们。也就是说，它不断地分配内存空间，但却没有允许 GC 回收它们。种种迹象表明这是一个泄露，加上我们确切地知道这些对象被分配到了什么地方（createSomeNodes 函数）。现在应该去研究代码，并修复这个泄漏。  
+
+### 其他有用的特性  
+在堆内存分配结果视图中我们可以使用比 Summary 更好的 Allocation 视图。  
+![](/image/js5-5.jpg)  
+这个视图为我们呈现了一个函数的列表，同时也显示了与它们相关的内存分配情况。我们能立即看到 grow 和 createSomeNodes 凸显了出来。当选择 grow 我们看到了与它相关的对象构造函数被调用的情况。我们注意到了（string），HTMLDivElement 和 Text 而现在我们已经知道是对象的构造函数被泄露了。
+
+这些工具的组合对找到泄漏有很大帮助。和它们一起工作。为你的生产环境站点做不同的分析（最好用没有最小化或混淆的代码）。看看你能不能找到那些比正常情况消耗更多内存的对象吧（提示：这些很难被找到）。  
+
+> 如果要使用 Allocation 视图，需要进入 Dev Tools -> Settings，选中“record heap allocation stack traces”。获取记录之前必须要这么做。  
+
+### 其他demo  
+下面是一组DOM节点内存泄漏的例子。你可能希望在测试你的更复杂的页面或应用前先用这些例子做试验。
+
+* [Example 1: Growing memory](https://developer.chrome.com/devtools/docs/demos/memory/example1.html)
+* [Example 2: Garbage collection in action](https://developer.chrome.com/devtools/docs/demos/memory/example2.html)
+* [Example 3: Scattered objects](https://developer.chrome.com/devtools/docs/demos/memory/example3.html)
+* [Example 4: Detached nodes](https://developer.chrome.com/devtools/docs/demos/memory/example4.html)
+* [Example 5: Memory and hidden classes](https://developer.chrome.com/devtools/docs/demos/memory/example5.html)
+* [Example 6: Leaking DOM nodes](https://developer.chrome.com/devtools/docs/demos/memory/example6.html)
+* [Example 7: Eval is evil (almost always)](https://developer.chrome.com/devtools/docs/demos/memory/example7.html)
+* [Example 8: Recording heap allocations](https://developer.chrome.com/devtools/docs/demos/memory/example8.html)
+* [Example 9: DOM leaks bigger than expected](https://developer.chrome.com/devtools/docs/demos/memory/example9.html)
+* [Example 10: Retaining path](https://developer.chrome.com/devtools/docs/demos/memory/example10.html)
+* [Example 11: Last exercise](https://developer.chrome.com/devtools/docs/demos/memory/example11.html)    
+
+### 社区资源
+
+社区贡献了很多如何用Chrome DevTools来定位和解决web apps内存问题的资源。下面的一组资源可能对你有帮助：
+
+* [Finding and debugging memory leaks with the Chrome DevTools](http://slid.es/gruizdevilla/memory)
+
+* [JavaScript profiling with the DevTools](http://coding.smashingmagazine.com/2012/06/12/javascript-profiling-chrome-developer-tools/)
+
+* [Effective memory management at GMail scale](http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/)
+
+* [Chrome DevTools Revolutions 2013](http://www.html5rocks.com/en/tutorials/developertools/revolutions2013/)
+
+* [Rendering and memory profiling with the DevTools](http://www.slideshare.net/matenadasdi1/google-chrome-devtools-rendering-memory-profiling-on-open-academy-2013)
+
+* [Performance optimization with DevTools timeline and profile](http://addyosmani.com/blog/performance-optimisation-with-timeline-profiles/)  
+
+
+
+
+
+
+
+
+
+
 
