@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<script src="./vue.min.js"></script>
+
+<body>
+    <div id="demo">
+        <div v-if="Math.random() > 0.5">HAHa</div>
+        <div v-else>。。。</div>
+    </div>
+<script>
+	var vm = new Vue({
+		el:'#demo'
+	})
+</script>
+</body>
+
+</html>

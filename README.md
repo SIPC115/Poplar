@@ -31,7 +31,9 @@ Poplar web前端知识库
     - [this 与对象](https://github.com/SIPC115/Poplar/blob/master/JS/js4.md)
     - [类与继承](https://github.com/SIPC115/Poplar/blob/master/JS/js5.md)
     - [js 内存管理](https://github.com/SIPC115/Poplar/blob/master/JS/js6.md)
-    - DOM 操作
+    - [DOM 操作之节点](https://github.com/SIPC115/Poplar/blob/master/JS/js7.md) 
+    - DOM 操作之样式
+    - DOM2和DOM3
     - 事件处理
     - 优化手段与编程技巧
     - ajax 及跨域
