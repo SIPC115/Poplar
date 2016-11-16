@@ -12,6 +12,14 @@
         <div v-if="Math.random() > 0.5">HAHa</div>
         <div v-else>。。。</div>
     </div>
+
+    <div id="demo">
+        <div>123</div>
+        <div>223</div>
+    </div> 
+    <script>
+        console.log(document.getElementById("demo").childNodes.length);
+    </script>
 <script>
 	var vm = new Vue({
 		el:'#demo'

@@ -39,11 +39,74 @@ nodeValue 属性：
 
 * 元素节点的 nodeValue 是 undefined 或 null
 * 文本节点的 nodeValue 是文本本身
-* 属性节点的 nodeValue 是属性值  
+* 属性节点的 nodeValue 是属性值   
+
+## 访问节点  
+在最早的DOM操作中，我们只能使用诸如`getElementsByTagName`,`getElementById`,`getElementsByName`这几个函数。这极大限制了我们对DOM的
+操作能力，这时jQuery提出了Sizzle引擎可以让我们通过像css选择器那样选择节点，因而广泛流行开来。  
+如今的DOM已经原生支持了通过选择符的方式选择节点，通过`querySelector`，`querySelectorAll`这两个函数完成。  
 
 ## 节点关系  
 ![](/image/js7-2.png)  
-**注：关系中间加上Element表示只查找元素节点。例如：nextElementSibling 表示下一个同胞元素节点**  
+这些关系都包含在节点的属性中。举例说明：  
+
+```html   
+<div id="demo">
+    <div>123</div>
+    <div>223</div>
+</div> 
+<script>
+    console.log(document.getElementById("demo").childNodes.length);   //5
+</script>
+```     
+这里答案是5，也就是说demo节点下面有5个子节点。有可能你会问，demo下面明明有2个节点啊。我们输出childNodes看一下：  
+![](/image/js7-4.png)  
+我们可以看见，打印出的数组中，除了`div`还有`text`这个是文本节点。文本节点的内容是"回车符号"，这是我们在写代码的时候
+回车换行所带入的。上面列出的节点关系中，都是要考虑文本节点的。信号后来又添加了几个属性来补充节点关系：   
+
+* childeElementCount: 返回子元素(不包括文本节点和注释)的个数  
+* firstElementChild: 指向第一个子元素
+* lastElementChild: 指向最后一个子元素
+* previousElementSibling: 指向前一个同辈元素
+* nextElementSibling: 指向后一个同辈元素  
+* children: 返回所有的子元素   
+
+
+## 节点位置  
+在实际开发中，我们经常需要比对节点的位置，比如是否包含，谁前谁后等问题。  
+IE 首先提出了Node.contains()方法。Node.contains()返回一个布尔值来表示是否传入的节点是，该节点的子节点。
+如果 otherNode 是 node 的后代节点或是 node 节点本身.则返回true , 否则返回 false。这个方法并不是w3c的规范中提到的。  
+DOM3中引入了compareDocumentPosition()方法来确定节点之间的关系。被主流浏览器支持，IE8及其以下请放弃。  
+
+```js    
+node.compareDocumentPosition( otherNode )    
+```   
+* node是要和otherNode比较位置的节点。
+* otherNode是被和node比较位置的节点。  
+
+返回值是otherNode节点和node节点的位置关系。位置关系用数字来表示如下：  
+
+|常量名|十进制|含义|  
+|:--:|:--:|:--:|  
+|DOCUMENT_POSITION_DISCONNECTED|1|不在同一文档中|  
+|DOCUMENT_POSITION_PRECEDING|2|otherNode在node之前|  
+|DOCUMENT_POSITION_FOLLOWING|4|otherNode在node之后|  
+|DOCUMENT_POSITION_CONTAINS|8|otherNode包含node|  
+|DOCUMENT_POSITION_CONTAINED_BY|16|otherNode被node包含|  
+|DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC|32|待定| 
+
+如果两个节点之间满足以上的多种关系，那么返回的数字为关系数字相加。比如B为A的子节点，那么A包含B返回4，B又在A的后面出现返回16，所以
+`A.compareDocumentPosition(B)`最终返回20。  
+
+通常我们只考察包含关系，这里给出一个通用函数：  
+
+```js  
+function contains(ele1, ele2) {
+    return ele1.contains ? ele1 != ele2 && ele1.contains(ele2) : !!(ele1.compareDocumentPosition(ele2) & 16);
+}  
+```
+
+
 
 ## 节点创建与插入  
 节点创建一般我们使用`document.createElement`,`innerHTML`,`insertAdjacentHTML`(也具有创建节点作用，多用于插入节点)。
