@@ -18,7 +18,7 @@ var dom = document.getElementById("test"),
 ```     
 
 浏览器运行效果如下：  
-![](/image/css10-1.png)   
+![](/image/cssfix-1.png)   
 Gecko 2.0 (Firefox 4 / Thunderbird 3.3 / SeaMonkey 2.1) 之前，第二个参数“伪类”是必需的（如果不是伪类，设置为null）。  
 ## getPropertyValue   
 getPropertyValue方法可以获取CSS样式申明对象上的属性值（直接属性名称），例如：  
