@@ -280,7 +280,15 @@ return buildFragment;
 在两个if判断后，开始对tmp赋值  
 tmp = tmp || fragment.appendChild( context.createElement( "div" ) ); 文档碎片创建了一个临时的tmp元素（div）  
 tag = ( rtagName.exec( elem ) || [ "", "" ] )[ 1 ].toLowerCase();； 这里 rtagName = /<([\w:-]+)/ 用于匹配标签名 ，需要注意这里仅匹配第一个标签名，之后的不会考虑。
-匹配到的 tag 这里就要判断是否是特殊的标签，因为要解决这些特殊标签不能直接作为子元素的胚胎元素。    
+匹配到的 tag 这里就要判断是否是特殊的标签，因为要解决这些特殊标签不能直接作为子元素的胚胎元素。     
+
+# 附录  
+参考资料如下：  
+* [javascript高级程序设计第三版](http://product.dangdang.com/1900470931.html)  
+* [jQuery框架设计](https://item.jd.com/11436424.html)  
+* [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript) 
+* [jQuery源码分析 节点操作(1) 节点的创建](http://www.qdfuns.com/notes/16837/584df66bbc8855afe8fc81cf7b61146d.html)  
+
 
 
 
