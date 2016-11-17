@@ -22,7 +22,33 @@ function getStyle(ele, name) {
 ```    
 
 如果我们需要获取内联样式，直接可以通过 `ele.style`来获取，但这也只能获取带有内联样式的元素。  
-下面说说js需要特殊关照的一下样式。  
+下面说说js需要特殊关照的一下样式。    
+
+## 获取 css3 带有前缀的样式  
+css3中引入了大量新的样式，但是这些样式因为浏览器内核的原因有各自的前缀：`-webkit-`,`-o-`,`-moz-`,`-ms-`。因此我们需要一个方法，能够判断出当前浏览器
+究竟使用的是哪儿种前缀。代码如下：  
+
+```js  
+var prefix = (function() {
+    var div = document.createElement('div');
+    var cssText = '-webkit-transition:all .1s; -moz-transition:all .1s; -o-transition:all .1s; -ms-transition:all .1s; transition:all .1s;';
+    div.style.cssText = cssText;
+    var style = div.style;
+    if (style.webkitTransition) {
+        return '-webkit-';
+    }
+    if (style.MozTransition) {
+        return '-moz-';
+    }
+    if (style.oTransition) {
+        return '-o-';
+    }
+    if (style.msTransition) {
+        return '-ms-';
+    }
+    return '';
+})()  
+```
 
 ## 元素尺寸  
 在 js中获取一个元素的大小。我们用`window.getComputedStyle(ele, null)["width"]`来获取一个元素的宽度，
@@ -75,6 +101,224 @@ document.body.scrollWidth, document.body.offsetWidth);
 ```  
 放一个元素尺寸参考图：  
 ![](/image/js8-1.png)  
+
+## 控制元素显隐  
+这里我们应用display的方式进行显隐，隐藏一个元素很好办。直接`display: none;`即可，但是想把这个元素再显示，就有问题了。我们不能直接设置`display: block;`
+因为元素的display并不都是一样的，比如表格，内联元素等。所以我们在显示之前一定要获取该元素正常显示的时候display的值究竟是什么。  
+
+### getDefaultComputedStyle  
+getDefaultComputedStyle是获取元素默认的属性值，用法和getComputedStyle一样。利用这个函数我们就可以活的，元素默认的display值了。  
+
+```js
+var style = window.getDefaultComputedStyle(element[, pseudoElt]);  
+```
+* element: 取计算样式的元素
+* pseudoElt 可选: 指定匹配的伪类. 通常情况下可以为空。返回的样式是一个 CSSStyleDeclaration 对象。  
+
+### 利用iframe获取  
+对于不支持`getDefaultComputedStyle`的浏览器我么那只能创建一个纯净的iframe环境(shadowdom也可以哦)，来检测。代码如下：  
+
+```js  
+/**
+ * 检测节点原生display属性
+ * @param {String} 节点名称
+ * @return {String} display属性值
+ */
+function parseDisplay(nodeName) {
+    var result;
+    nodeName = nodeName.toLowerCase();
+    applyIframe(function(win, doc, body) {
+        var node = doc.createElement(nodeName);
+        body.appendChild(node);
+        if(win.getComputedStyle) {
+            result = win.getComputedStyle(node, null)["display"];
+        }else {
+            result = node.currentStyle.display;
+        }
+    })
+    function applyIframe(callback) {
+        //这里可以考虑加入shadowDom代替iframe
+        var root = document.createElement("iframe");
+        root.style.cssText = "width: 0px;height: 0px;border: 0 none;";
+        document.documentElement.appendChild(root);
+        rootWin = root.contentWindow;
+        rootDoc = rootWin.document;
+        rootDoc.write("<!doctype html><html><body>");
+        rootDoc.close();
+        callback(rootWin, rootDoc, rootDoc.body);
+        //删除iframe
+        setTimeout(function() {
+            document.documentElement.removeChild(root);
+        })
+    }
+    return result;
+}  
+```  
+
+## 元素的位置  
+### 绝对坐标 getBoundingClientRect  
+有的时候我们需要知道在文档所处的位置(比如：图片惰性加载，元素拖拽等等)即绝对坐标，这就需要我们计算元素的坐标位置。js 提供了一个`getBoundingClientReact`
+方案来获取元素绝对坐标的位置:  
+Element.getBoundingClientRect() 方法返回元素的大小及其相对于视口的位置。  
+
+```js  
+rectObject = object.getBoundingClientRect();  
+```  
+返回值是一个 DOMRect 对象，这个对象是由该元素的 getClientRects() 方法返回的一组矩形的集合, 即：是与该元素相关的CSS 边框集合 。   
+DOMRect 对象包含了一组用于描述边框的只读属性——left、top、right和bottom，单位为像素。除了 width 和 height 外的属性都是相对于视口的左上角位置而言的。   
+
+空边框盒（译者注：没有内容的边框）会被忽略。如果所有的元素边框都是空边框，
+那么这个矩形给该元素返回的 width、height 值为0，left、top值为第一个css盒子（按内容顺序）的top-left值。  
+当计算边界矩形时，会考虑视口区域（或其他可滚动元素）内的滚动操作，也就是说，当滚动位置发生了改变，top和left属性值就会随之立即发生变化（因此，它们的值是相对于视口的，而不是绝对的）。如果不希望属性值随视口变化，那么只要给top、left属性值加上当前的滚动位置（通过window.scrollX和window.scrollY），这样就可以获取与当前的滚动位置无关的常量值。    
+为了跨浏览器兼容，请使用 window.pageXOffset 和 window.pageYOffset 代替 window.scrollX 和 window.scrollY。  
+但是，我们还要考虑其他情况。首先要判断节点是否在DOM树上，不在直接返回(0, 0)。 还有的时候html的其实位置坐标是(2, 2)这就很操蛋了，我们得减去这部分。下面给出
+通解：  
+
+```js  
+function getOffset(ele) {
+    var doc = ele.ownerDocument,
+        pos = {
+            left: 0,
+            right: 0
+        };
+    if(!doc) {
+        return pos;
+    }
+    var box = ele.getBoundingClientRect(),
+        win = getWindow(doc),
+        root = doc.documentElement,
+        //检测是否有2个px的偏移
+        clientTop = root.clientTop || 0,
+        clientLeft = root.clientLeft || 0,
+        scrollTop = win.pageYOffset || root.scrollTop,
+        scrollLeft = win.pageXOffset || root.scrollLeft;
+    pos.top = box.top + scrollTop - clientTop,
+    pos.left = box.left + scrollLeft - clientLeft;
+    return pos;
+}  
+function getWindow(node) {
+    return node.window || node.defaultView || false
+}
+```     
+
+### 相对坐标 offsetParent 
+相对坐标是相对于其offsetParent的位置。根据w3c，元素是这样寻找offsetParent的。如果元素被移出 DOM 树，或 display 为none，或作为HTML或BODY元素，或其
+position的精确值为fixed时，返回null。否则分为两种情况，position为absolute，relative的元素的offsetParent总是为其最近的以定位的祖先，没有找
+最近的td，th元素，在没有返回body；position为static的元素的offsetParent则是找最近的td,th,table元素，在没有返回body。但是现实中，Firefox在position为fixed
+但会body。遵循这样的规则，会导致大多数情况下offsetParent为null。为此jQuery认为offsetParent的position必须为relative或absolute，否则继续向上查找另一个被定为的
+祖先，没有返回html。position: fixed;的严肃也有offsetParent就是可视区。大致思路代码如下：  
+
+```js  
+function getPosition(node) {
+    var offset,
+        offsetParent,
+        parentOffset = {
+            top: 0,
+            left: 0
+        };
+    if(!node || node.nodeType !== 1) {
+        return;
+    }
+    if(getStyle(node, "position") === "fixed") {
+        offset = node.getBoundingClientRect();
+    }else {
+        offset = getOffset(node);  //获得元素相对于视窗的距离
+        //这里在jQuery中用的是 this.offsetParent()  条件更加苛刻
+        offsetParent = node.offsetParent;
+        if(offsetParent.nodeName !== "HTML") {
+            parentOffset = getOffset(offsetParent);
+        }
+        parentOffset.top += parseFloat(getStyle(offsetParent, "borderTopWidth")) || 0;
+        parentOffset.left += parseFloat(getStyle(offsetParent, "borderLeftWidth")) || 0;
+    }
+    return {
+        top: offset.top - parentOffset.top - (parseFloat(getStyle(node, "marginTop")) || 0),
+        left: offset.left - parentOffset.left - (parseFloat(getStyle(node, "marginLeft")) || 0)
+    }
+} 
+```   
+
+### 设置元素offset
+获取还是相对比较简单的，但是设置 offset 就更困难了。思路如下：  
+用户传入新的相对于页面的坐标，然后判断当前元素的position。因为想让top，left有效，必须是定位元素。如果不是，我们就设置元素的相对定位，接着求取当前相对页面的坐标
+与用户传入的坐标见得偏移量，最后加到当天的top，left上。jQuery中代码如下(这里我就不重写了，直接用jQuery，仅供参考)：  
+
+```js  
+function setOffset(elem, options, i) {
+    var curPosition, curLeft, curCSSTop, curTop, curOffset, curCSSLeft, calculatePosition,
+    //获取该元素的position属性  
+    position = jQuery.css(elem, "position"),
+    //把当前元素包装为jQuery元素!  
+    curElem = jQuery(elem),
+    props = {};
+    //如果当前元素是static类型，那么把这个DOM元素的position设置为relative!  
+    //以防把top,left属性设置到static元素上面？static没有left?top?  
+    // set position first, in-case top/left are set even on static elem  
+    if (position === "static") {
+        elem.style.position = "relative";
+    }
+    //调用当前jQuery对象的offset方法获取到offset属性!也就是设置和文档的偏移之前首先获取到文档的偏移!  
+    curOffset = curElem.offset();
+
+    //获取DOM的top，left属性,但是这个top,left不是options中left和top属性!  
+    curCSSTop = jQuery.css(elem, "top");
+    curCSSLeft = jQuery.css(elem, "left");
+
+    //如果元素的postion是absolute或者fixed，同时top或者left是auto！  
+    calculatePosition = (position === "absolute" || position === "fixed") && jQuery.inArray("auto", [curCSSTop, curCSSLeft]) > -1;
+    // need to be able to calculate position if either top or left is auto and position is either absolute or fixed  
+    if (calculatePosition) {
+        //获取当前元素的position属性!也就是相对于被定位的祖辈元素的位置!也就是如果postion是absolute或者fixed，同时left，right是auto  
+        //那么就是相对于被定位的父元素来说的!(因为如果本身的position是static那么已经被转为relative了，relative是相对于absolute定位的!)  
+        curPosition = curElem.position();
+        curTop = curPosition.top;
+        curLeft = curPosition.left;
+    } else {
+        //否则直接把DOM元素已经具有的left和top属性解析为浮点类型，如果没有就是0!  
+        curTop = parseFloat(curCSSTop) || 0;
+        curLeft = parseFloat(curCSSLeft) || 0;
+    }
+    //如果是函数，直接调用函数，函数中context是DOM元素，第一个参数是DOM下标，第二个参数是当前DOM元素的offset的值!  
+    if (jQuery.isFunction(options)) {
+        options = options.call(elem, i, curOffset);
+    }
+    //如果传入的参数有top属性，那么把props的top属性设置为  
+    if (options.top != null) {
+        props.top = (options.top - curOffset.top) + curTop;
+    }
+    //如果传入的参数有left属性，那么把props的left属性设置为  
+    if (options.left != null) {
+        props.left = (options.left - curOffset.left) + curLeft;
+    }
+    //如果  
+    if ("using" in options) {
+        options.using.call(elem, props);
+    } else {
+        curElem.css(props);
+    }
+}  
+```   
+最后来章总结图片：  
+![](/image/js8-2.png)     
+
+
+
+# 附录  
+参考资料如下：  
+
+* [jQuery源码分析之offset,position,offsetParent方法以及源码中常见的cssHooks,swap代码](http://blog.csdn.net/liangklfang/article/details/49229231)  
+* [javascript高级程序设计第三版](http://product.dangdang.com/1900470931.html)  
+* [jQuery框架设计](https://item.jd.com/11436424.html)   
+* [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript)   
+* [javascript获取隐藏元素(display:none)的高度和宽度的方法](http://blog.csdn.net/dragoo1/article/details/50260255)  
+
+
+
+
+
+
+
+
 
 
 
