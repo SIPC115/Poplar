@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script src="http://cdn.bootcss.com/jquery/2.0.2/jquery.min.js"></script>
+	<div class="wrapper">
+		<div class="nav"></div>
+		<div class="content"></div>
+	</div>
+</body>
+<script src="./event.js"></script>
+<script>
+    $(document).ready(function () {
+        console.time('start');
+
+        for (var i = 0; i < 300; i++) {
+            badRun();
+        }
+        //69ms完成
+        console.timeEnd('start');
+
+    });
+</script>
+</html>
