@@ -37,8 +37,8 @@ Poplar web前端知识库
     - [事件系统](https://github.com/SIPC115/Poplar/blob/master/JS/js10.md) 
     - [基础数据交互](https://github.com/SIPC115/Poplar/blob/master/JS/js11.md)
     - [跨域数据交互](https://github.com/SIPC115/Poplar/blob/master/JS/js12.md) 
-    - 优化手段与编程技巧
-    - 数据交互和存储
+    - [常用编程技巧](https://github.com/SIPC115/Poplar/blob/master/JS/js13.md)
+    - 性能优化
     - ES6 新特性
     - 函数式编程简介  
     - RxJS 
