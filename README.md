@@ -57,7 +57,7 @@ Poplar web前端知识库
     - RN & WEEX简介
 - ReactNative 基础
     - 001 环境搭建 
-    - [002 Flex 布局](https://github.com/SIPC115/Poplar/blob/master/ReactNative/002 Flex 布局--ReactNative 开发基础.md)
+    - [002 Flex 布局](https://github.com/zhengao261/Poplar/blob/master/ReactNative/002%20Flex%20%E5%B8%83%E5%B1%80--ReactNative%20%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80%20.md)
     - [003 ES6基础](https://github.com/SIPC115/Poplar/blob/master/ReactNative/003 ES6--ReactNative 开发基础.md)
     - [004 JSX](https://github.com/SIPC115/Poplar/blob/master/ReactNative/004 React JSX-- ReactNative 开发基础.md)
     - [005 手势与触摸事件](https://github.com/SIPC115/Poplar/blob/master/ReactNative/005 手势与触摸事件.md)
